@@ -5,14 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TechTopia City Plan</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet"> <!-- Changed font to Poppins -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
         body {
-            font-family: 'Poppins', sans-serif; /* Updated font family */
+            font-family: 'Poppins', sans-serif;
             margin: 0;
             padding: 0;
-            background: linear-gradient(to bottom right, #a8c0ff, #3faffa);
-            color: #4a4a4a;
+            background: linear-gradient(to bottom right, #808000, #f4f4f4); /* Olive Green to White */
+            color: #333;
             line-height: 1.6;
         }
         h1, h2 {
@@ -21,16 +21,13 @@
         }
         h1 {
             font-size: 3rem;
-            color: #003366;
+            color: #808000; /* Olive Green */
             text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.2);
-            background: linear-gradient(to right, #005bb5, #003366);
-            color: transparent;
-            background-clip: text;
         }
         h2 {
             font-size: 2rem;
-            color: #003366;
-            background: linear-gradient(to right, #f3e05d, #ff91a4);
+            color: #808000; /* Olive Green */
+            background-color: #FFFFFF; /* White background */
             display: inline-block;
             padding: 10px 20px;
             border-radius: 15px;
@@ -40,45 +37,13 @@
         section {
             margin: 30px auto;
             padding: 40px;
-            background: rgba(255, 255, 255, 0.85);
+            background: rgba(255, 255, 255, 0.85); /* Semi-transparent white */
             border-radius: 20px;
             box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.1);
             width: 90%;
             max-width: 1000px;
             color: #333;
             position: relative;
-        }
-        section::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(to bottom right, rgba(255, 255, 255, 0.2), rgba(0, 0, 0, 0.1));
-            border-radius: 20px;
-            z-index: -1;
-        }
-        ul, dl {
-            list-style: none;
-            padding: 0;
-            margin: 20px 0;
-        }
-        dt {
-            font-weight: 500; /* Bold text */
-            margin-top: 10px;
-        }
-        dd {
-            margin-bottom: 10px;
-        }
-        a {
-            color: #003366;
-            font-weight: bold;
-            text-decoration: none;
-        }
-        a:hover {
-            color: #005bb5;
-            text-decoration: underline;
         }
         .btn {
             display: inline-block;
@@ -87,13 +52,14 @@
             font-size: 1.1rem;
             font-weight: bold;
             color: #fff;
-            background: linear-gradient(to right, #003366, #005bb5);
+            background: #808000; /* Olive Green */
             border: none;
             border-radius: 15px;
             cursor: pointer;
             transition: all 0.3s ease;
         }
         .btn:hover {
+            background: #4d6600; /* Darker Olive Green */
             transform: scale(1.1);
         }
         .team-members {
@@ -103,7 +69,7 @@
             justify-items: center;
         }
         .team-card {
-            background: #f1f8ff;
+            background: #f4f4f4; /* Light grey background */
             padding: 20px;
             border-radius: 15px;
             box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
@@ -118,14 +84,11 @@
         .team-card h3 {
             margin: 10px 0;
             font-size: 1.1rem;
-            color: #003366;
-            background: linear-gradient(to right, #005bb5, #003366);
-            color: transparent;
-            background-clip: text;
+            color: #808000; /* Olive Green */
         }
         .team-card p {
             font-size: 0.9rem;
-            color: #3faffa;
+            color: #808000; /* Olive Green */
         }
         .business-cards {
             display: grid;
@@ -134,7 +97,7 @@
             margin-top: 20px;
         }
         .business-card {
-            background: #e6f0ff;
+            background: #f4f4f4; /* Light grey background */
             padding: 20px;
             border-radius: 15px;
             box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
@@ -145,10 +108,7 @@
         .business-card h3 {
             margin-bottom: 15px;
             font-size: 1.2rem;
-            color: #003366;
-            background: linear-gradient(to right, #005bb5, #003366);
-            color: transparent;
-            background-clip: text;
+            color: #808000; /* Olive Green */
         }
         .business-card ul {
             list-style: none;
@@ -156,27 +116,10 @@
         }
         .business-card li {
             margin: 5px 0;
-            color: #555;
         }
         .business-card:hover {
             transform: translateY(-5px);
             box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.2);
-        }
-        .chart-score h2 {
-            font-size: 2.5rem;
-            color: #005bb5;
-        }
-        .team-links {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 15px;
-        }
-        .score-bar span {
-            display: block;
-            height: 8px;
-            background-color: #003366;
-            border-radius: 4px;
         }
     </style>
 </head>
@@ -206,51 +149,34 @@
         <div class="business-card">
             <h3><a name="sujith">Sujith roy</a></h3>
             <ul>
-                <li>Smart Parking Guidance:
-Real-time data on parking
-availability integrated into
-traffic systems to guide
-drivers directly to open spots,
-reducing unnecessary circling.</li>
-                <li>Traffic enforcement drones to
-reduce traffic.</li>
+                <li>Smart Parking Guidance: Real-time data on parking availability integrated into traffic systems to guide drivers directly to open spots, reducing unnecessary circling.</li>
+                <li>Traffic enforcement drones to reduce traffic.</li>
             </ul>
         </div>
         
         <div class="business-card">
             <h3><a name="cl">Claudia jesuraj</a></h3>
             <ul>
-                <li>Flood detection and rerouting monitor roads for flooding during heavy rains and provide instant detours to safer routes</li>
-                <li>Traffic enforcement drones to
-reduce traffic.</li>
+                <li>Flood detection and rerouting monitor roads for flooding during heavy rains and provide instant detours to safer routes.</li>
+                <li>Traffic enforcement drones to reduce traffic.</li>
             </ul>
         </div>
         <div class="business-card">
             <h3><a name="bh">Bhagyashree</a></h3>
             <ul>
-                <li>Accident detection and
-response using ai powered
-cameras,alerting authorities,
-thus reduces the traffic</li>
-                <li>Delivery drones for reducing
-the use of delivery drivers
-thus, reduces the traffic.</li>
+                <li>Accident detection and response using AI-powered cameras, alerting authorities, thus reduces the traffic.</li>
+                <li>Delivery drones for reducing the use of delivery drivers thus, reduces the traffic.</li>
             </ul>
         </div>
         <div class="business-card">
             <h3><a name="sn">Sneha</a></h3>
             <ul>
-                <li>Priority lanes for emergency
-services and heavy duty
-vehicles to deviate them to
-highways .</li>
-                <li>Delivery drones for reducing
-the use of delivery drivers
-thus, reduces the traffic.</li>
+                <li>Priority lanes for emergency services and heavy-duty vehicles to deviate them to highways.</li>
+                <li>Delivery drones for reducing the use of delivery drivers thus, reduces the traffic.</li>
             </ul>
         </div>
     </div>
-</section> 
+</section>
 
 <section>
     <h2>Details of Business Cases Identified</h2>
