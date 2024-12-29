@@ -4,97 +4,47 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Course Concepts and Challenges</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
-            margin: 20px;
-        }
-        h1, h2 {
-            color: #2c3e50;
-        }
-        h3 {
-            color: #34495e;
-        }
-        p {
-            margin: 10px 0;
-        }
-        ul {
-            margin: 10px 0;
-        }
-        .section-title {
-            font-weight: bold;
-            color: #2980b9;
-        }
-    </style>
 </head>
 <body>
-    <h1>Key Concepts Learned in the Course</h1>
-
-    <p><strong>Time Complexity Analysis</strong></p>
-    <p>Time complexity is all about figuring out how long an algorithm will take to finish, especially as the amount of data grows. It helps compare different ways of solving a problem to see which one is faster. Big-O notation is like a simple rating system that shows if something is quick, slow, or in-between. The goal is to find a solution that works well, even when the data gets really big. Time complexity measures how long an algorithm takes to run as the input size increases. Algorithms are categorized using Big-O notation:</p>
+    <h1>Key Concepts/Things Learned in the Course</h1>
+    <h2>Exercises, Structured Enquiry, Case Study</h2>
     <ul>
-        <li>O(1) means it’s fast and takes the same time no matter the input size.</li>
-        <li>O(log n) is very efficient, like binary search, where the problem size is halved with each step.</li>
-        <li>O(n) means it processes each input once, like scanning through a list.</li>
-        <li>O(n²) or worse, like O(2ⁿ), is slow, especially with large inputs.</li>
+        <li>Time complexity analysis</li>
+        <li>Binary search tree</li>
+        <li>DFS and BFS</li>
+        <li>Heap</li>
+        <li>Sorting</li>
+        <li>Pattern searching</li>
+        <li>Graph algorithms</li>
     </ul>
-    <p>Understanding time complexity helps you pick the best approach to ensure a program runs efficiently, especially when handling millions of items.</p>
-
-    <p><strong>Binary Search Tree (BST)</strong></p>
-    <p>A Binary Search Tree is like an organized tree where smaller values go to the left, and larger ones go to the right. This makes it handy for finding things quickly. You can also add or remove items, but the tree needs to stay balanced to work fast. If it gets out of balance, it can slow down, so keeping it organized is key. A Binary Search Tree organizes data so smaller values go left and larger values go right. This structure lets you search, insert, or delete items efficiently in O(log n) time—provided the tree is balanced. In a balanced BST, the height is minimized, making operations fast. However, if the tree becomes unbalanced (like a linked list), operations degrade to O(n) time. Balanced BSTs like AVL or Red-Black Trees solve this problem by keeping the height small.</p>
-
-    <p><strong>DFS (Depth-First Search) and BFS (Breadth-First Search)</strong></p>
-    <p>DFS and BFS are two ways to explore data in graphs or trees. DFS goes as deep as possible down one path before backing up and trying another path. BFS, on the other hand, looks at everything nearby first before moving further out. DFS is good for solving puzzles or exploring all options, while BFS is great for finding the shortest path or checking things level by level. DFS explores one branch of a tree or graph as deeply as possible before backtracking, while BFS checks all neighbors level by level.</p>
-    <ul>
-        <li>DFS is efficient in terms of memory, as it uses a stack and takes O(V + E) time (V = vertices, E = edges).</li>
-        <li>BFS uses a queue and also takes O(V + E) time but can require more memory, especially with wide graphs.</li>
-    </ul>
-    <p>DFS is great for tasks like checking if a path exists, while BFS is better for finding the shortest path in unweighted graphs.</p>
-
-    <p><strong>Heap</strong></p>
-    <p>A heap is a special kind of tree where the top (or root) always has the smallest or largest item. It’s useful when you need to quickly grab the most important thing, like in a to-do list where tasks have priorities. For example, heaps are used to sort data or manage tasks in order of importance, like scheduling jobs for a computer. A heap is a special tree where the root is either the smallest or largest value.</p>
-    <ul>
-        <li>Inserting or removing an item from a heap takes O(log n) time because it maintains order by reorganizing only part of the tree.</li>
-        <li>Building a heap from scratch takes O(n) time.</li>
-    </ul>
-    <p>Heaps are commonly used in priority queues, where the highest-priority task is processed first, and in heapsort, which sorts data in O(n log n) time. They’re also used in algorithms like Dijkstra's to quickly find the next shortest path.</p>
-
-    <p><strong>Sorting</strong></p>
-    <p>Sorting is about putting things in order, like arranging numbers from smallest to largest or organizing names alphabetically. Some methods, like Bubble Sort, are easy to understand but slow. Others, like Quick Sort, are much faster but a bit trickier to learn. Sorting is used everywhere, from arranging search results to organizing files on your computer. Sorting organizes data into a specific order. Here’s a breakdown of common sorting algorithms and their efficiencies:</p>
-    <ul>
-        <li>Bubble Sort: Simple but very slow, with a time complexity of O(n²).</li>
-        <li>Quicksort: Efficient on average with O(n log n) time but can degrade to O(n²) in the worst case if poorly implemented.</li>
-        <li>Mergesort: Always takes O(n log n) time and works well for large datasets but needs extra memory.</li>
-        <li>Heapsort: Efficient with O(n log n) time and works in-place, meaning no extra space is needed.</li>
-    </ul>
-    <p>Sorting is used in search engines, file systems, and data analysis.</p>
-
-    <p><strong>Pattern Searching</strong></p>
-    <p>Pattern searching is finding one thing inside another, like looking for a word in a book or a phrase in a document. A basic way is to check every possible spot, but smarter methods like KMP and Rabin-Karp skip unnecessary checks to save time. It’s used in things like text editors, search engines, and even spam filters. Pattern searching finds one sequence of characters inside another, like finding a word in a sentence.</p>
-    <ul>
-        <li>The naive method checks every possible position and takes O(n * m) time, where n is the text length and m is the pattern length.</li>
-        <li>KMP (Knuth-Morris-Pratt) optimizes by reusing previous match results, reducing the time to O(n + m).</li>
-        <li>Rabin-Karp uses hashing to compare patterns, with average-case efficiency of O(n + m) but a worst case of O(n * m) due to hash collisions.</li>
-    </ul>
-    <p>Pattern searching is critical in applications like search engines, DNA sequence analysis, and spam detection.</p>
-
-    <p><strong>Graph Algorithms</strong></p>
-    <p>Graphs are like maps made of points (called nodes) connected by lines (called edges). Graph algorithms help solve problems like finding the shortest path between two points (like in GPS apps) or connecting everything as cheaply as possible (like laying cables in a city). They are used in things like social networks, delivery routes, and even games. Graphs are made of nodes (vertices) connected by lines (edges). Graph algorithms solve problems like finding the shortest path, minimum connections, or detecting cycles.</p>
-    <ul>
-        <li>Dijkstra’s Algorithm: Finds the shortest path in weighted graphs, taking O(V²) with a simple implementation or O((V + E) log V) with a priority queue (heap).</li>
-        <li>Kruskal’s and Prim’s Algorithms: Find the minimum spanning tree, both taking O(E log E) time.</li>
-        <li>Floyd-Warshall: Solves all-pairs shortest paths in O(V³) time, but it’s slow for large graphs.</li>
-    </ul>
-    <p>These algorithms are used in navigation apps, social networks, and network design.</p>
 
     <h2>1. Challenges in Learning/Understanding the Concepts</h2>
     <p>The main challenge in understanding these concepts is that they often involve a lot of technical details, formulas, and abstract thinking. For example, time complexity can feel confusing because it’s not always easy to see how an algorithm's performance changes with larger inputs. Similarly, concepts like graphs, heaps, or pattern searching algorithms can seem overwhelming because they require a clear understanding of how data is organized and processed. Visualizing how algorithms like DFS, BFS, or Boyer-Moore work can also be tricky without proper examples or hands-on practice. Another issue is that many of these topics build on each other, so if you don’t fully understand one, it can be harder to learn the next.</p>
 
+    <ul>
+        <li><strong>Binary Search Tree (BST):</strong> Understanding how the tree is organized, how to insert, delete, and search efficiently can be tricky. Balancing the tree for optimal performance also adds complexity.</li>
+        <li><strong>DFS and BFS:</strong> These algorithms require understanding the difference between searching deeply (DFS) versus level-by-level (BFS). Visualizing how each works, especially for large graphs, can be a challenge.</li>
+        <li><strong>Heap:</strong> Grasping how the heap maintains the heap property during insertion and deletion requires careful attention to the process of "bubbling up" and "bubbling down" elements.</li>
+        <li><strong>Sorting:</strong> While sorting algorithms are simple in theory, understanding the trade-offs in time complexity (e.g., O(n<sup>2</sup>) vs. O(n log n)) and applying the right algorithm can be challenging, especially with large datasets.</li>
+        <li><strong>Pattern Searching:</strong> Determining the best algorithm to use for string matching (e.g., KMP, Rabin-Karp) depends on the specific problem, and learning when and why to use each can be confusing.</li>
+        <li><strong>Graph Algorithms:</strong> The challenge lies in selecting the right algorithm based on graph properties (e.g., weighted or unweighted, directed or undirected). BFS, DFS, Dijkstra’s algorithm, and others all have different applications and complexities.</li>
+    </ul>
+
     <h2>2. Challenges in Correlating with Real-World Applications</h2>
     <p>It’s often hard to see how these concepts apply to real life because they seem very theoretical at first. For example, when learning about heaps, you might not immediately understand how they are used in things like scheduling tasks or building priority queues. Graph algorithms can seem like just abstract math until you see how they help with navigation apps or social networks. Additionally, many problems in real life are messy and don’t match textbook examples, so applying algorithms directly can be tricky. Understanding where to use which algorithm, like using Boyer-Moore for searching in large texts, also takes practice and experience.</p>
 
+    <ul>
+        <li><strong>Binary Search Tree (BST):</strong> It's hard to relate BSTs to real-world problems beyond simple use cases like searching in a sorted dataset. Many applications may require balancing or hybrid structures like AVL or Red-Black trees for efficiency.</li>
+        <li><strong>DFS and BFS:</strong> While useful for traversing graphs, translating them into real-world use cases like network routing or social networks can be tricky. Also, DFS might not always provide the shortest path, making BFS a better fit in some cases.</li>
+        <li><strong>Heap:</strong> Heaps are primarily used in priority queues, but correlating their theoretical concepts to systems like task scheduling or real-time processing might be harder for beginners.</li>
+        <li><strong>Sorting:</strong> Sorting is used everywhere (e.g., arranging items in an online store), but it can be tough to decide on the right algorithm (e.g., quicksort vs. merge sort) based on performance and the size of data.</li>
+        <li><strong>Pattern Searching:</strong> Real-world applications like searching for substrings in text or DNA sequences require understanding when to use a specialized algorithm to improve speed and accuracy, which can be hard to grasp.</li>
+        <li><strong>Graph Algorithms:</strong> Graphs model many real-world systems, such as road maps or social networks, but it can be complex to choose between algorithms like Dijkstra’s or Bellman-Ford based on specific use cases, like road navigation or communication networks.</li>
+    </ul>
+
     <h2>3. Determining the Most Efficient Approach/Design Techniques</h2>
-    <p>To choose the best approach for solving a problem, the first step is to fully understand the problem and break it into smaller parts. Then, think about the input size and the resources (time and memory) available. Start by considering simpler algorithms and only move to more complex ones if they’re needed. Analyze the time complexity to ensure your solution will work efficiently for large inputs. Also, think about whether you need to optimize for speed or memory, as some algorithms are faster but use more memory. Testing different methods and learning from past experience is key to finding the most efficient design. When solving a complex problem, start by understanding the problem constraints and requirements—such as time, space, and the nature of the data. Identify the operations that need optimization (e.g., searching, sorting, pathfinding). Once the problem's characteristics are clear, evaluate the trade-offs between different approaches using time and space complexity analysis. Use a design approach that balances clarity, efficiency, and scalability. Testing the solution against real-world data or edge cases can help ensure that the chosen technique is the most effective. For example, if time is a critical factor, algorithms with lower time complexity should be prioritized, but if the problem involves dynamic data, dynamic programming or greedy algorithms might be more efficient.</p>
+    <p>To choose the best approach for solving a problem, the first step is to fully understand the problem and break it into smaller parts. Then, think about the input size and the resources (time and memory) available. Start by considering simpler algorithms and only move to more complex ones if they’re needed. Analyze the time complexity to ensure your solution will work efficiently for large inputs. Also, think about whether you need to optimize for speed or memory, as some algorithms are faster but use more memory. Testing different methods and learning from past experience is key to finding the most efficient design.</p>
+
+    <p>When solving a complex problem, start by understanding the problem constraints and requirements—such as time, space, and the nature of the data. Identify the operations that need optimization (e.g., searching, sorting, pathfinding). Once the problem's characteristics are clear, evaluate the trade-offs between different approaches using time and space complexity analysis. Use a design approach that balances clarity, efficiency, and scalability. Testing the solution against real-world data or edge cases can help ensure that the chosen technique is the most effective. For example, if time is a critical factor, algorithms with lower time complexity should be prioritized, but if the problem involves dynamic data, dynamic programming or greedy algorithms might be more efficient.</p>
 </body>
 </html>
