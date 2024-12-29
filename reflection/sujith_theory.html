@@ -4,155 +4,126 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Design and Analysis of Algorithms</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
-            margin: 0;
-            padding: 0;
-        }
-        header {
-            background-color: #005bb5;
-            padding: 20px;
-            text-align: center;
-        }
-        main {
-            padding: 20px;
-        }
-        section {
-            margin-bottom: 30px;
-        }
-        h1, h2, h3 {
-            color: #333;
-        }
-        ul {
-            margin: 10px 0;
-            padding-left: 20px;
-        }
-        li {
-            margin-bottom: 5px;
-        }
-    </style>
 </head>
 <body>
-    <header>
-        <h1>Design and Analysis of Algorithms</h1>
-    </header>
-    <main>
-        <section>
-            <h2>Home Page &ndash; Introduction</h2>
-            <p>The course "Design and Analysis of Algorithms" delves into the foundational concepts and advanced techniques of algorithm development. It explores the systematic approach to solving computational problems efficiently using well-designed algorithms and appropriate data structures.</p>
-            <h3>What is the course about?</h3>
-            <p>The course focuses on understanding the principles behind algorithm design, analysing their efficiency in terms of time and space complexity, and applying them to solve real-world problems. It also emphasizes algorithmic paradigms like divide-and-conquer, greedy approaches, dynamic programming, and backtracking.</p>
-            <h3>What kind of data structures and algorithms have you studied?</h3>
-            <ul>
-                <li><strong>Data Structures:</strong> Arrays, Linked Lists, Stacks, Queues, Trees (Binary Search Tree, AVL, Red-Black Tree, 2-3 Tree, Heap, Trie), Graphs and their representations (Adjacency Matrix, Adjacency List).</li>
-                <li><strong>Algorithms:</strong> Sorting (Bubble Sort, Selection Sort, Insertion Sort, Merge Sort, Quick Sort, Heap Sort), Searching (Binary Search, Boyer-Moore, KMP, Rabin-Karp), Tree and Graph Traversals (DFS, BFS), Shortest Path Algorithms (Dijkstra's, Bellman-Ford, Floyd-Warshall), Spanning Tree Algorithms (Prim's, Kruskal's), Array Query Algorithms (Segment Trees, Fenwick Trees).</li>
-            </ul>
-            <h3>How do you connect the course with real-time applications?</h3>
-            <ul>
-                <li>Navigation systems use shortest path algorithms like Dijkstra's.</li>
-                <li>Social media platforms utilize graph algorithms for friend recommendations and connection analysis.</li>
-                <li>Dynamic programming and greedy techniques optimize supply chain management.</li>
-                <li>Data compression relies on trie structures for efficient storage.</li>
-            </ul>
-            <p>By integrating theoretical concepts with practical applications, the course bridges the gap between academia and industry.</p>
-        </section>
+    <h1>Home Page &ndash; Introduction</h1>
+    <p>The course "Design and Analysis of Algorithms" delves into the foundational concepts and advanced techniques of algorithm development. It explores the systematic approach to solving computational problems efficiently using well-designed algorithms and appropriate data structures.</p>
 
-        <section>
-            <h2>Course Project Introduction</h2>
-            <h3>Problem Space and How It Was Arrived At</h3>
-            <p>The course project revolved around designing algorithms for urban optimization in city planning. We analysed challenges such as traffic congestion, resource allocation, and public transportation scheduling. Insights were drawn from white papers on smart city frameworks, highlighting the need for algorithmic solutions to enhance urban efficiency.</p>
-            <h3>Problem Definition and Team Details</h3>
-            <p><strong>Problem Definition:</strong> Real-Time Traffic Monitoring and Management.</p>
-            <ul>
-                <li><strong>Sneha:</strong> Priority lanes for emergency services and heavy-duty vehicles to deviate them to highways.</li>
-                <li><strong>Bhagyashree:</strong> Accident detection and response using AI-powered cameras, alerting authorities, thus reducing traffic.</li>
-                <li><strong>Sujith:</strong> Smart Parking Guidance: Real-time data on parking availability integrated into traffic systems to guide drivers directly to open spots, reducing unnecessary circling.</li>
-                <li><strong>Claudia:</strong> Flood Detection and Rerouting: Monitor roads for flooding during heavy rains and provide instant detours to safer routes.</li>
-            </ul>
-            <h3>Business Cases</h3>
-            <ul>
-                <li><strong>Priority lanes:</strong> Essential for managing urban and highway traffic efficiently, enhancing emergency response capabilities.</li>
-                <li><strong>Accident detection:</strong> AI models analyze video feeds to identify accidents and send precise alerts to traffic authorities and emergency services.</li>
-                <li><strong>Smart Parking Guidance:</strong> Uses IoT sensors and cameras to eliminate unnecessary circling, saving time and reducing congestion.</li>
-                <li><strong>Flood Detection and Rerouting:</strong> Advanced sensors and AI tools monitor roads and provide alternate safe routes during floods.</li>
-            </ul>
-        </section>
+    <h2>What is the course about?</h2>
+    <p>The course focuses on understanding the principles behind algorithm design, analysing their efficiency in terms of time and space complexity, and applying them to solve real-world problems. It also emphasizes algorithmic paradigms like divide-and-conquer, greedy approaches, dynamic programming, and backtracking.</p>
 
-        <section>
-            <h2>Kinds of Problems in Nature</h2>
-            <ul>
-                <li><strong>Iteration:</strong> Tasks like repetitive data processing.</li>
-                <li><strong>Recursion:</strong> Divide-and-conquer strategies (e.g., Binary Search).</li>
-                <li><strong>Backtracking:</strong> Solves combinatorial problems (e.g., N-Queens puzzle).</li>
-            </ul>
+    <h2>What kind of data structures and algorithms have you studied?</h2>
+    <p>During this course, we explored a variety of data structures including:</p>
+    <ul>
+        <li>Arrays, Linked Lists, Stacks, Queues</li>
+        <li>Trees (Binary Search Tree, AVL, Red-Black Tree, 2-3 Tree, Heap, Trie)</li>
+        <li>Graphs and their representations (Adjacency Matrix, Adjacency List)</li>
+    </ul>
+    <p>The algorithms studied included:</p>
+    <ul>
+        <li>Sorting and Searching algorithms (Bubble Sort, Selection Sort, Insertion Sort, Merge Sort, Quick Sort, Heap Sort, Binary Search Searching algo &ndash; Boyer-Moore algorithm, KMP algorithm, Rabin-Karp algorithm)</li>
+        <li>Tree and Graph Traversals (DFS, BFS)</li>
+        <li>Shortest Path algorithms (Dijkstra&rsquo;s, Bellman-Ford, Floyd-Warshall)</li>
+        <li>Spanning Tree algorithms (Prim&rsquo;s, Kruskal&rsquo;s)</li>
+        <li>Array query algorithms (Segment Trees, Fenwick Trees)</li>
+    </ul>
 
-            <h3>Space and Time Efficiency</h3>
-            <p>Efficiency ensures algorithms are practical and scalable. Key problem classes include:</p>
-            <ul>
-                <li><strong>Constant (O(1):</strong> Minimal growth.</li>
-                <li><strong>Logarithmic (O(log n):</strong> Efficient for large inputs (e.g., Binary Search).</li>
-                <li><strong>Linear (O(n):</strong> Grows proportionally to input (e.g., traversal).</li>
-                <li><strong>Quadratic (O(n<sup>2</sup>):</strong> Computationally expensive for large data (e.g., Bubble Sort).</li>
-            </ul>
+    <h2>How do you connect the course with real-time applications?</h2>
+    <p>Algorithms are at the core of solving real-world problems such as:</p>
+    <ul>
+        <li>Navigation systems use shortest path algorithms like Dijkstra&rsquo;s.</li>
+        <li>Social media platforms utilize graph algorithms for friend recommendations and connection analysis.</li>
+        <li>Dynamic programming and greedy techniques optimize supply chain management.</li>
+        <li>Data compression relies on trie structures for efficient storage.</li>
+    </ul>
+    <p>By integrating theoretical concepts with practical applications, the course bridges the gap between academia and industry.</p>
 
-            <h3>Takeaways from Design Principles</h3>
-            <ul>
-                <li><strong>Modularity:</strong> Breaking problems into smaller sub-problems.</li>
-                <li><strong>Efficiency:</strong> Choosing optimal algorithms for the task.</li>
-                <li><strong>Scalability:</strong> Ensuring performance scales with data growth.</li>
-            </ul>
-        </section>
+    <hr>
 
-        <section>
-            <h2>Hierarchical Data and Tree Structures</h2>
-            <p>Hierarchical data is best managed by tree structures. Each type solves unique problems:</p>
-            <ul>
-                <li><strong>Binary Search Tree (BST):</strong> Fast searching.</li>
-                <li><strong>AVL Tree:</strong> Balances to maintain efficiency.</li>
-                <li><strong>Red-Black Tree:</strong> Ensures balanced insertion and deletion.</li>
-                <li><strong>Heap:</strong> Ideal for priority queue implementation.</li>
-                <li><strong>Trie:</strong> Optimizes dictionary operations.</li>
-            </ul>
-        </section>
+    <h1>Course Project Introduction</h1>
+    <h2>Problem Space and How It Was Arrived At</h2>
+    <p>The course project revolved around designing algorithms for urban optimization in city planning. We analysed challenges such as traffic congestion, resource allocation, and public transportation scheduling. Insights were drawn from white papers on smart city frameworks, highlighting the need for algorithmic solutions to enhance urban efficiency.</p>
 
-        <section>
-            <h2>Array Query Algorithms</h2>
-            <p>Array query algorithms like Segment Trees and Fenwick Trees efficiently handle range queries, crucial in real-time applications like financial data analysis and gaming scoreboards.</p>
-        </section>
+    <h2>Problem Definition and Team Details</h2>
+    <p><strong>Problem Definition:</strong> Real-Time Traffic Monitoring and Management.</p>
+    <p><strong>Team Members and Roles:</strong></p>
+    <ul>
+        <li><strong>Sneha:</strong> Priority lanes for emergency services and heavy-duty vehicles to deviate them to highways.</li>
+        <li><strong>Bhagyashree:</strong> Accident detection and response using AI-powered cameras, alerting authorities, thus reducing the traffic.</li>
+        <li><strong>Sujith:</strong> Smart Parking Guidance: Real-time data on parking availability integrated into traffic systems to guide drivers directly to open spots, reducing unnecessary circling.</li>
+        <li><strong>Claudia:</strong> Flood Detection and Rerouting: Monitor roads for flooding during heavy rains and provide instant detours to safer routes.</li>
+    </ul>
 
-        <section>
-            <h2>Trees vs. Graphs</h2>
-            <p><strong>Trees:</strong> Hierarchical, acyclic. Applications include file systems.</p>
-            <p><strong>Graphs:</strong> More general, can model complex networks. Applications include social networks and transportation systems.</p>
-        </section>
+    <h2>Business Cases</h2>
+    <ol>
+        <li><strong>Priority lanes for emergency services and heavy-duty vehicles to deviate them to highways:</strong> Priority lanes for emergency and heavy-duty vehicles are essential for managing urban and highway traffic efficiently. It can significantly enhance emergency response capabilities and streamline the movement of critical vehicles.</li>
+        <li><strong>Accident detection and response using AI-powered cameras:</strong> Detection: AI models analyse video feeds to identify accidents based on sudden traffic. Alerting: Once detected, the system automatically sends alerts to traffic authorities and emergency services with precise location details.</li>
+        <li><strong>Smart Parking Guidance:</strong> Real-time data on parking availability integrated into traffic systems to guide drivers directly to open spots, reducing unnecessary circling. Smart Parking Guidance systems leverage real-time data to help drivers find available parking spots quickly and efficiently. By integrating IoT sensors, cameras, and traffic systems, these systems eliminate the need for drivers to aimlessly circle parking lots or streets searching for a spot, thereby reducing traffic congestion, saving time, and cutting down fuel consumption.</li>
+        <li><strong>Flood Detection and Rerouting:</strong> Flood Detection and Rerouting systems use advanced sensors, IoT devices, and AI-powered tools to monitor roads and areas for any signs of flooding during heavy rains. These systems will ensure public safety by detecting flooded areas and guiding drivers to safer and alternate routes. By providing immediate alerts and alternate options, the system helps reduce traffic congestion and prevent accidents.</li>
+    </ol>
 
-        <section>
-            <h2>Sorting and Searching Algorithms</h2>
-            <p>Sorting (e.g., Quick Sort) and searching (e.g., Binary Search) optimize data retrieval and organization. Real-world applications include database indexing and search engines.</p>
-        </section>
+    <h2>Kinds of Problems in Nature</h2>
+    <p>Nature presents problems requiring iterative, recursive, and backtracking solutions. For instance:</p>
+    <ul>
+        <li>Iteration is observed in tasks like repetitive data processing.</li>
+        <li>Recursion is evident in divide-and-conquer strategies, such as binary search.</li>
+        <li>Backtracking solves combinatorial problems like the N-Queens puzzle.</li>
+    </ul>
 
-        <section>
-            <h2>Graph Algorithms</h2>
-            <p>Graph algorithms solve connectivity and optimization problems:</p>
-            <ul>
-                <li><strong>Spanning Trees:</strong> Minimize costs (e.g., Kruskal's).</li>
-                <li><strong>Shortest Path:</strong> Navigate efficiently (e.g., Dijkstra's).</li>
-            </ul>
-        </section>
+    <h2>Space and Time Efficiency</h2>
+    <p>Efficiency ensures algorithms are practical and scalable. Time complexity determines how execution time grows with input size, while space complexity tracks memory usage. Key problem classes include:</p>
+    <ul>
+        <li>Constant (O(1)): Minimal growth.</li>
+        <li>Logarithmic (O(log n)): Efficient for large inputs (e.g., Binary Search).</li>
+        <li>Linear (O(n)): Grows proportionally to input (e.g., traversal).</li>
+        <li>Quadratic (O(n<sup>2</sup>)): Computationally expensive for large data (e.g., Bubble Sort).</li>
+    </ul>
 
-        <section>
-            <h2>Algorithm Design Techniques</h2>
-            <ul>
-                <li><strong>Divide-and-Conquer:</strong> Breaks problems into smaller sub-problems (e.g., Merge Sort).</li>
-                <li><strong>Greedy:</strong> Makes local optimal choices (e.g., Huffman Encoding).</li>
-                <li><strong>Dynamic Programming:</strong> Stores intermediate results for efficiency (e.g., Fibonacci calculation).</li>
-            </ul>
-        </section>
+    <h2>Takeaways from Design Principles</h2>
+    <p>Key design principles include:</p>
+    <ul>
+        <li>Modularity: Breaking problems into smaller sub-problems.</li>
+        <li>Efficiency: Choosing optimal algorithms for the task.</li>
+        <li>Scalability: Ensuring performance scales with data growth.</li>
+    </ul>
 
-        <p>The course has been instrumental in honing problem-solving skills, understanding algorithmic paradigms, and applying them to real-world scenarios effectively.</p>
-    </main>
+    <h2>Hierarchical Data and Tree Structures</h2>
+    <p>Hierarchical data is best managed by tree structures. Each type solves unique problems:</p>
+    <ul>
+        <li>Binary Search Tree (BST): Fast searching.</li>
+        <li>AVL Tree: Balances to maintain efficiency.</li>
+        <li>Red-Black Tree: Ensures balanced insertion and deletion.</li>
+        <li>Heap: Ideal for priority queue implementation.</li>
+        <li>Trie: Optimizes dictionary operations.</li>
+    </ul>
+
+    <h2>Array Query Algorithms</h2>
+    <p>Array query algorithms like Segment Trees and Fenwick Trees efficiently handle range queries, crucial in real-time applications like financial data analysis and gaming scoreboards.</p>
+
+    <h2>Trees vs. Graphs</h2>
+    <ul>
+        <li><strong>Trees:</strong> Hierarchical, acyclic. Applications include file systems.</li>
+        <li><strong>Graphs:</strong> More general, can model complex networks. Applications include social networks and transportation systems.</li>
+    </ul>
+
+    <h2>Sorting and Searching Algorithms</h2>
+    <p>Sorting (e.g., Quick Sort) and searching (e.g., Binary Search) optimize data retrieval and organization. Real-world applications include database indexing and search engines.</p>
+
+    <h2>Graph Algorithms</h2>
+    <p>Graph algorithms solve connectivity and optimization problems:</p>
+    <ul>
+        <li>Spanning Trees: Minimize costs (e.g., Kruskal&rsquo;s).</li>
+        <li>Shortest Path: Navigate efficiently (e.g., Dijkstra&rsquo;s).</li>
+    </ul>
+
+    <h2>Algorithm Design Techniques</h2>
+    <p>Key techniques include:</p>
+    <ul>
+        <li>Divide-and-Conquer: Breaks problems into smaller sub-problems (e.g., Merge Sort).</li>
+        <li>Greedy: Makes local optimal choices (e.g., Huffman Encoding).</li>
+        <li>Dynamic Programming: Stores intermediate results for efficiency (e.g., Fibonacci calculation).</li>
+    </ul>
+
+    <p>The course has been instrumental in honing problem-solving skills, understanding algorithmic paradigms, and applying them to real-world scenarios effectively.</p>
 </body>
 </html>
-
