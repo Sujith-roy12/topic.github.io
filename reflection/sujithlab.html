@@ -3,87 +3,155 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Challenges and Reflections</title>
+    <title>Challenges in Learning and Applications</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background: #f9f9f9;
-            color: #333;
             line-height: 1.6;
+            margin: 20px;
         }
         h1, h2 {
-            text-align: center;
-            color: #005bb5;
-        }
-        section {
-            margin: 20px auto;
-            padding: 20px;
-            background: #fff;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            width: 90%;
-            max-width: 1000px;
-        }
-        h2 {
-            margin-top: 20px;
+            color: #333;
         }
         ul {
-            list-style-type: none;
-            padding: 0;
+            margin-left: 20px;
         }
         li {
-            margin: 10px 0;
-        }
-        p {
-            margin: 10px 0;
+            margin-bottom: 10px;
         }
     </style>
 </head>
 <body>
+    <h1>Challenges in Learning/Understanding the Concepts</h1>
 
-<h1>Challenges and Reflections</h1>
-
-<section>
-    <h2>1. Challenges in Learning/Understanding the Concepts</h2>
+    <h2>Time Complexity Analysis:</h2>
     <ul>
-        <li><strong>Time Complexity Analysis:</strong> Understanding big-O notation and analyzing recursive algorithms were initially confusing. Breaking down recursive steps and determining time complexity were challenging.</li>
-        <li><strong>Binary Search Tree (BST):</strong> Building and traversing BSTs while maintaining their properties was initially difficult but improved with practice.</li>
-        <li><strong>DFS and BFS:</strong> Managing recursive stacks in DFS and handling disconnected components or cycles in BFS were tricky.</li>
-        <li><strong>Heap:</strong> Understanding heapify operations and array representations of heaps was challenging initially.</li>
-        <li><strong>Sorting:</strong> Comparing and choosing the best sorting algorithm for specific situations was overwhelming.</li>
-        <li><strong>Pattern Searching:</strong> Algorithms like KMP and Boyer-Moore were complex due to the need for table construction and pattern shifting calculations.</li>
-        <li><strong>Graph Algorithms:</strong> Representing graphs and implementing algorithms like Dijkstra's and Prim's were conceptually easy but hard to code with heaps.</li>
+        <li>At first, understanding the meaning of big-O notation was confusing, especially distinguishing between best, worst, and average cases.</li>
+        <li>Analysing recursive algorithms was tricky because I struggled to break them down into simple steps. I was unable to understand how to figure out the time complexity of particular code.</li>
     </ul>
-</section>
 
-<section>
-    <h2>2. Challenges in Correlating with Real-World Applications</h2>
+    <h2>Binary Search Tree (BST):</h2>
     <ul>
-        <li><strong>Time Complexity Analysis:</strong> Understanding theoretical complexity in real runtime scenarios was abstract without examples.</li>
-        <li><strong>Binary Search Tree:</strong> Relating BSTs to database indexing and handling unbalanced trees was tricky.</li>
-        <li><strong>DFS and BFS:</strong> Applying these algorithms to social networks and web crawling was challenging to visualize.</li>
-        <li><strong>Heap:</strong> Using heaps in priority queues and modifying them for real-world constraints was unclear.</li>
-        <li><strong>Sorting:</strong> Choosing the right sorting algorithm for real-world applications was confusing.</li>
-        <li><strong>Pattern Searching:</strong> Applying these algorithms to text processing or large datasets felt abstract.</li>
-        <li><strong>Graph Algorithms:</strong> Implementing algorithms on large graphs like social networks was daunting.</li>
+        <li>Initially I found it difficult to build the BST tree keeping tree properties in mind later on I was able to overcome the difficulty after practicing.</li>
+        <li>Recursive traversals (in-order, pre-order, post-order) felt challenging at first because I would lose track of how recursion works.</li>
     </ul>
-</section>
 
-<section>
-    <h2>3. Determining the Most Efficient Approach/Design Techniques</h2>
+    <h2>DFS and BFS:</h2>
     <ul>
-        <li><strong>Time Complexity Analysis:</strong> Comparing expected input size and algorithm growth helps in selecting the best approach.</li>
-        <li><strong>Binary Search Tree:</strong> Using self-balancing trees for balanced operations and hash tables for sorted/repetitive data.</li>
-        <li><strong>DFS and BFS:</strong> Using DFS for exploring possibilities and BFS for shortest paths in unweighted graphs.</li>
-        <li><strong>Heap:</strong> Applying heaps for priority-based problems like scheduling tasks.</li>
-        <li><strong>Sorting:</strong> Choosing quick sort for speed, merge sort for stability, and simpler algorithms for small datasets.</li>
-        <li><strong>Pattern Searching:</strong> Using KMP for repetitive patterns and brute force for shorter texts.</li>
-        <li><strong>Graph Algorithms:</strong> Selecting algorithms like Dijkstra for shortest paths and Prim's for MSTs based on graph type.</li>
+        <li>For DFS, managing the recursive stack and understanding how backtracking happens was confusing.</li>
+        <li>For BFS, using a queue for traversal made sense, but I struggled when the graph had disconnected components or cycles.</li>
     </ul>
-</section>
 
+    <h2>Heap:</h2>
+    <ul>
+        <li>I found the concept of heapifying hard first. Figuring out how a tree structure fits into an array format was confusing.</li>
+        <li>Deletion of elements in heap was confusing in the start as we needed to swap and delete and again heapify the tree.</li>
+    </ul>
+
+    <h2>Sorting:</h2>
+    <ul>
+        <li>Comparing so many sorting algorithms was overwhelming. Remembering which algorithm works best for a specific situation (like stability or efficiency) was a challenge.</li>
+        <li>Recursive sorting algorithms like merge sort felt harder because I was not able to trace the code.</li>
+    </ul>
+
+    <h2>Pattern Searching:</h2>
+    <ul>
+        <li>Algorithms like KMP and Boyer-Moore were confusing because they required many tables to be constructed before matching the pattern and string.</li>
+        <li>It was confusing when there was a mismatch in the pattern and string we had to use certain formulas to know how much will the pattern shift for next comparisons.</li>
+    </ul>
+
+    <h2>Graph Algorithms:</h2>
+    <ul>
+        <li>Representing graphs with adjacency lists and matrices took time to understand.</li>
+        <li>Algorithms like Dijkstra’s and Prim’s were conceptually easy, but implementing them correctly with heaps was tough.</li>
+    </ul>
+
+    <h1>Challenges in Correlating with Real-World Applications</h1>
+
+    <h2>Time Complexity Analysis:</h2>
+    <ul>
+        <li>It was hard to understand how the theoretical complexity translates to real runtime, especially when hardware factors come into play.</li>
+        <li>Predicting performance for very large datasets felt abstract without real-world examples.</li>
+    </ul>
+
+    <h2>Binary Search Tree:</h2>
+    <ul>
+        <li>Real-world applications like database indexing were mentioned, but it wasn’t clear how BSTs are used practically for large-scale systems.</li>
+        <li>Balancing a BST and understanding how it can become inefficient when unbalanced was tricky.</li>
+    </ul>
+
+    <h2>DFS and BFS:</h2>
+    <ul>
+        <li>Relating these algorithms to applications like social networks or web crawling was interesting but challenging to visualize on large graphs.</li>
+        <li>Understanding trade-offs between DFS and BFS for practical use cases wasn’t straightforward.</li>
+    </ul>
+
+    <h2>Heap:</h2>
+    <ul>
+        <li>The use of heaps in priority queues made sense, but understanding how they optimize scheduling systems or simulations was not clear.</li>
+        <li>I wasn’t sure how to modify heaps for real-world constraints like dynamic updates.</li>
+    </ul>
+
+    <h2>Sorting:</h2>
+    <ul>
+        <li>Sorting algorithms are everywhere, but knowing when to choose a specific algorithm for real-world problems like search engines or e-commerce platforms was challenging.</li>
+        <li>There are many sorting techniques so it was quite confusing to know which algorithm to use.</li>
+    </ul>
+
+    <h2>Pattern Searching:</h2>
+    <ul>
+        <li>Applying these algorithms to fields like text processing, plagiarism detection, or bioinformatics sounded fascinating but felt very abstract.</li>
+        <li>Large-scale text datasets and real-time searching seemed difficult to handle using just theoretical approaches.</li>
+    </ul>
+
+    <h2>Graph Algorithms:</h2>
+    <ul>
+        <li>Applications like navigation systems and network optimization were mentioned, but implementing these on massive graphs felt daunting.</li>
+        <li>Real-world graphs, like social networks, often have unique challenges (e.g., size, disconnected components) that are harder to map onto basic algorithms.</li>
+    </ul>
+
+    <h1>Determining the Most Efficient Approach/Design Techniques</h1>
+
+    <h2>Time Complexity Analysis:</h2>
+    <ul>
+        <li>To choose the best approach, I compare the expected input size and how the algorithm’s growth will affect performance.</li>
+        <li>I try to simplify problems into smaller parts to calculate and compare complexities more easily. By looking at code if it has nested loops and keeping basic operations in mind.</li>
+    </ul>
+
+    <h2>Binary Search Tree:</h2>
+    <ul>
+        <li>For balanced operations, I would choose a self-balancing tree like AVL. For simpler cases, a standard BST is easier to implement.</li>
+        <li>If data is sorted or repetitive, I look for alternative structures like hash tables.</li>
+    </ul>
+
+    <h2>DFS and BFS:</h2>
+    <ul>
+        <li>I use DFS when the problem requires exploring all possibilities (like puzzles).</li>
+        <li>For finding the shortest path in an unweighted graph, BFS is more efficient.</li>
+    </ul>
+
+    <h2>Heap:</h2>
+    <ul>
+        <li>I use heaps for problems where priority is important, like scheduling tasks or finding the kth largest element.</li>
+        <li>Heap consists of two types min-heap and max-heap.</li>
+    </ul>
+
+    <h2>Sorting:</h2>
+    <ul>
+        <li>For general cases, I use quick sort because it’s fast. If stability is needed, I use merge sort.</li>
+        <li>For small datasets or nearly sorted data, I prefer insertion sort or bubble sort for simplicity.</li>
+    </ul>
+
+    <h2>Pattern Searching:</h2>
+    <ul>
+        <li>I choose KMP for repetitive patterns in a long text since it avoids redundant comparisons.</li>
+        <li>For shorter texts, simpler algorithms like brute force string search algorithm is fine.</li>
+    </ul>
+
+    <h2>Graph Algorithms:</h2>
+    <ul>
+        <li>I pick algorithms based on the problem: Dijkstra for shortest paths, Prim’s for MSTs, and DFS/BFS for connectivity or exploration.</li>
+        <li>For sparse graphs, I prefer adjacency lists, and for dense graphs, adjacency matrices work better.</li>
+    </ul>
 </body>
 </html>
-
