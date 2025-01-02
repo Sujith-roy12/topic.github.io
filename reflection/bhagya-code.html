@@ -1,1 +1,172 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C++ Code Display</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+        pre {
+            background-color: #272822;
+            color: white;
+            padding: 20px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        code {
+            font-family: 'Courier New', monospace;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>C++ Code: Accident Detection and Response System</h1>
+    <p>This is the C++ code for the Accident Detection and Response System using a priority queue to manage accidents based on severity and timestamp.</p>
+    
+    <pre><code>
+#include &lt;iostream&gt;
+#include &lt;queue&gt;
+#include &lt;unordered_map&gt;
+#include &lt;string&gt;
+
+using namespace std;
+
+// Accident structure to hold information
+struct Accident {
+    string location;  // Location of the accident
+    int severity;     // Severity of the accident (1 = High, 2 = Medium, 3 = Low)
+    int timestamp;    // Time of the accident (earlier timestamps have higher priority)
+
+    Accident(string loc, int sev, int time) : location(loc), severity(sev), timestamp(time) {}
+};
+
+// Comparator for priority queue (min-heap)
+struct CompareAccident {
+    bool operator()(const Accident* a, const Accident* b) {
+        if (a->severity == b->severity) {
+            return a->timestamp &gt; b->timestamp; // Earlier accidents have higher priority
+        }
+        return a->severity &gt; b->severity; // Higher severity accidents have higher priority
+    }
+};
+
+// Abstract Data Type for Accident Response System
+class AccidentResponseADT {
+public:
+    virtual void reportAccident(const string& location, int severity, int timestamp) = 0;
+    virtual void processNextAccident() = 0;
+    virtual void displayPendingAccidents() const = 0;
+    virtual ~AccidentResponseADT() {}
+};
+
+// Implementation of AccidentResponseADT
+class AccidentResponseSystem : public AccidentResponseADT {
+private:
+    priority_queue&lt;Accident*, vector&lt;Accident*&gt;, CompareAccident&gt; minHeap; // Min-heap for accident management
+
+public:
+    // Report a new accident
+    void reportAccident(const string& location, int severity, int timestamp) override {
+        Accident* newAccident = new Accident(location, severity, timestamp);
+        minHeap.push(newAccident);
+        cout &lt;&lt; "Accident reported at " &lt;&lt; location &lt;&lt; " with severity " &lt;&lt; severity &lt;&lt; " at timestamp " &lt;&lt; timestamp &lt;&lt; "." &lt;&lt; endl;
+    }
+
+    // Process the next highest priority accident
+    void processNextAccident() override {
+        if (minHeap.empty()) {
+            cout &lt;&lt; "No pending accidents to process." &lt;&lt; endl;
+            return;
+        }
+        Accident* nextAccident = minHeap.top();
+        minHeap.pop();
+        cout &lt;&lt; "Processing accident at " &lt;&lt; nextAccident-&gt;location 
+             &lt;&lt; " with severity " &lt;&lt; nextAccident-&gt;severity 
+             &lt;&lt; " reported at timestamp " &lt;&lt; nextAccident-&gt;timestamp &lt;&lt; "." &lt;&lt; endl;
+        delete nextAccident; // Clean up memory
+    }
+
+    // Display all pending accidents in priority order
+    void displayPendingAccidents() const override {
+        if (minHeap.empty()) {
+            cout &lt;&lt; "No pending accidents to display." &lt;&lt; endl;
+            return;
+        }
+
+        priority_queue&lt;Accident*, vector&lt;Accident*&gt;, CompareAccident&gt; tempHeap = minHeap;
+        cout &lt;&lt; "Pending accidents (in priority order):" &lt;&lt; endl;
+        while (!tempHeap.empty()) {
+            Accident* acc = tempHeap.top();
+            tempHeap.pop();
+            cout &lt;&lt; "Location: " &lt;&lt; acc-&gt;location 
+                 &lt;&lt; ", Severity: " &lt;&lt; acc-&gt;severity 
+                 &lt;&lt; ", Timestamp: " &lt;&lt; acc-&gt;timestamp &lt;&lt; endl;
+        }
+    }
+
+    // Destructor to clean up memory
+    ~AccidentResponseSystem() override {
+        while (!minHeap.empty()) {
+            delete minHeap.top();
+            minHeap.pop();
+        }
+    }
+};
+
+int main() {
+    AccidentResponseADT* system = new AccidentResponseSystem();
+    int choice;
+
+    do {
+        cout &lt;&lt; "\n--- Accident Detection and Response System ---\n";
+        cout &lt;&lt; "1. Report Accident\n";
+        cout &lt;&lt; "2. Process Next Accident\n";
+        cout &lt;&lt; "3. Display Pending Accidents\n";
+        cout &lt;&lt; "4. Exit\n";
+        cout &lt;&lt; "Enter your choice: ";
+        cin &gt;&gt; choice;
+
+        switch (choice) {
+            case 1: {
+                string location;
+                int severity, timestamp;
+                cout &lt;&lt; "Enter accident location: ";
+                cin &gt;&gt; location;
+                cout &lt;&lt; "Enter severity (1 = High, 2 = Medium, 3 = Low): ";
+                cin &gt;&gt; severity;
+                cout &lt;&lt; "Enter timestamp: ";
+                cin &gt;&gt; timestamp;
+                system-&gt;reportAccident(location, severity, timestamp);
+                break;
+            }
+            case 2: {
+                system-&gt;processNextAccident();
+                break;
+            }
+            case 3: {
+                system-&gt;displayPendingAccidents();
+                break;
+            }
+            case 4: {
+                cout &lt;&lt; "Exiting the system. Goodbye!" &lt;&lt; endl;
+                break;
+            }
+            default: {
+                cout &lt;&lt; "Invalid choice! Please try again." &lt;&lt; endl;
+                break;
+            }
+        }
+    } while (choice != 4);
+
+    delete system; // Cleanup
+    return 0;
+}
+    </code></pre>
+</body>
+</html>
