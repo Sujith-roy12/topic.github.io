@@ -1,1 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DAA Portfolio</title>
+</head>
+<body>
+    <header>
+        <h1>DAA Portfolio</h1>
+        <p>Name: Bhagyashree Anand Mugalkhod</p>
+        <p>Division: F</p>
+        <p>Roll No: 155</p>
+        <p>USN: 01FE23BCI118</p>
+        <p>Guide: K.M.M. Rajashekharaiah</p>
+    </header>
+    <main>
+        <section>
+            <h2>Key Concepts / Things That I Learned in This Course</h2>
+            <article>
+                <h3>Time Complexity Analysis</h3>
+                <h4>Task 1: Towers of Brahma Problem</h4>
+                <pre>
+#include &lt;iostream&gt;
+#include &lt;ctime&gt;
+using namespace std;
 
+void towers(int n, string from, string to, string aux) {
+    if (n == 1) {
+        cout &lt;&lt; "Move disc 1 from " &lt;&lt; from &lt;&lt; " to " &lt;&lt; to &lt;&lt; endl;
+        return;
+    }
+    towers(n-1, from, aux, to);
+    cout &lt;&lt; "Move disc " &lt;&lt; n &lt;&lt; " from " &lt;&lt; from &lt;&lt; " to " &lt;&lt; to &lt;&lt; endl;
+    towers(n-1, aux, to, from);
+}
+
+int main() {
+    int n;
+    string A = "A", B = "B", C = "C";
+    cin &gt;&gt; n;
+
+    clock_t start = clock();
+    towers(n, A, C, B);
+    clock_t end = clock();
+    double elapsed = double(end - start) / CLOCKS_PER_SEC;
+    cout &lt;&lt; "Time taken for execution: " &lt;&lt; elapsed &lt;&lt; " seconds" &lt;&lt; endl;
+    return 0;
+}
+                </pre>
+                <table border="1">
+                    <thead>
+                        <tr>
+                            <th>Input</th>
+                            <th>Time (seconds)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>1</td><td>0.649</td></tr>
+                        <tr><td>2</td><td>0.65</td></tr>
+                        <tr><td>3</td><td>0.937</td></tr>
+                        <tr><td>4</td><td>1.554</td></tr>
+                        <tr><td>5</td><td>1.98</td></tr>
+                        <tr><td>6</td><td>3.365</td></tr>
+                    </tbody>
+                </table>
+            </article>
+            <article>
+                <h4>Task 2: Linear vs Binary Search</h4>
+                <pre>
+#include &lt;iostream&gt;
+#include &lt;ctime&gt;
+#include &lt;cstdlib&gt;
+#include &lt;algorithm&gt;
+using namespace std;
+
+// Rest of the program code...
+                </pre>
+                <p>Comparison table and graphs are provided in the document.</p>
+            </article>
+        </section>
+        <section>
+            <h3>Challenges and Learnings</h3>
+            <p>Challenges in understanding the course and correlating it with real-world applications are highlighted for each topic.</p>
+        </section>
+        <section>
+            <h3>Algorithms</h3>
+            <p>Details of various algorithms including Binary Search Tree, DFS, BFS, Heap, Sorting Techniques, Pattern Searching, and Graph Algorithms are discussed.</p>
+        </section>
+    </main>
+</body>
+</html>
