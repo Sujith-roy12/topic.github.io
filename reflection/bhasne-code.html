@@ -1,1 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C++ Code: Drone Delivery System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+        pre {
+            background-color: #272822;
+            color: white;
+            padding: 20px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        code {
+            font-family: 'Courier New', monospace;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>C++ Code: Drone Delivery System</h1>
+    <p>This is the C++ code for the Drone Delivery System, which allows the addition of delivery zones and routes, assigning drone tasks, and processing deliveries using Dijkstra's algorithm for optimized delivery times.</p>
+    
+    <pre><code>
+#include &lt;iostream&gt;
+#include &lt;unordered_map&gt;
+#include &lt;vector&gt;
+#include &lt;queue&gt;
+#include &lt;string&gt;
+#include &lt;limits&gt;
+
+using namespace std;
+
+// Structure to represent a delivery route
+struct Route {
+    int destination;   // Destination delivery zone
+    int deliveryTime;  // Time required for delivery
+
+    Route(int dest, int time) : destination(dest), deliveryTime(time) {}
+};
+
+// Comparator for min-heap (shortest delivery time)
+struct Compare {
+    bool operator()(const pair&lt;int, int&gt;& a, const pair&lt;int, int&gt;& b) {
+        return a.second &gt; b.second; // Min-heap based on delivery time
+    }
+};
+
+// Abstract Data Type for Drone Delivery System
+class DroneDeliveryADT {
+public:
+    virtual void addZone(int id) = 0;
+    virtual void addRoute(int from, int to, int deliveryTime) = 0;
+    virtual void assignDroneTask(int droneId, int startZone, int endZone) = 0;
+    virtual void processDeliveries() = 0;
+    virtual ~DroneDeliveryADT() {}
+};
+
+// Implementation of DroneDeliveryADT
+class DroneDeliverySystem : public DroneDeliveryADT {
+private:
+    unordered_map&lt;int, vector&lt;Route&gt;&gt; deliveryGraph;   // Graph representing delivery zones and routes
+    queue&lt;pair&lt;int, pair&lt;int, int&gt;&gt;&gt; droneTasks;       // Queue for managing drone tasks (droneId, (start, end))
+    unordered_map&lt;int, int&gt; droneLocations;           // Track drone locations
+    priority_queue&lt;pair&lt;int, int&gt;, vector&lt;pair&lt;int, int&gt;&gt;, Compare&gt; deliveryHeap; // Min-heap for delivery optimization
+
+    // Dijkstra's Algorithm to find shortest delivery time
+    int findShortestDeliveryTime(int start, int end) {
+        unordered_map&lt;int, int&gt; distances;
+        for (const auto& zone : deliveryGraph) {
+            distances[zone.first] = numeric_limits&lt;int&gt;::max();
+        }
+        distances[start] = 0;
+
+        priority_queue&lt;pair&lt;int, int&gt;, vector&lt;pair&lt;int, int&gt;&gt;, Compare&gt; pq;
+        pq.push({start, 0});
+
+        while (!pq.empty()) {
+            int currentZone = pq.top().first;
+            int currentTime = pq.top().second;
+            pq.pop();
+
+            if (currentZone == end) return currentTime;
+
+            for (const Route& route : deliveryGraph[currentZone]) {
+                int newTime = currentTime + route.deliveryTime;
+                if (newTime &lt; distances[route.destination]) {
+                    distances[route.destination] = newTime;
+                    pq.push({route.destination, newTime});
+                }
+            }
+        }
+
+        return -1; // No route found
+    }
+
+public:
+    // Add a delivery zone
+    void addZone(int id) override {
+        if (deliveryGraph.find(id) != deliveryGraph.end()) {
+            cout &lt;&lt; "Zone " &lt;&lt; id &lt;&lt; " already exists." &lt;&lt; endl;
+            return;
+        }
+        deliveryGraph[id] = vector&lt;Route&gt;();
+        cout &lt;&lt; "Zone " &lt;&lt; id &lt;&lt; " added successfully." &lt;&lt; endl;
+    }
+
+    // Add a delivery route between zones
+    void addRoute(int from, int to, int deliveryTime) override {
+        if (deliveryGraph.find(from) == deliveryGraph.end() || deliveryGraph.find(to) == deliveryGraph.end()) {
+            cout &lt;&lt; "One or both zones do not exist." &lt;&lt; endl;
+            return;
+        }
+        deliveryGraph[from].emplace_back(to, deliveryTime);
+        deliveryGraph[to].emplace_back(from, deliveryTime); // Assuming bidirectional routes
+        cout &lt;&lt; "Route added between " &lt;&lt; from &lt;&lt; " and " &lt;&lt; to &lt;&lt; " with delivery time " &lt;&lt; deliveryTime &lt;&lt; " minutes." &lt;&lt; endl;
+    }
+
+    // Assign a drone task (delivery)
+    void assignDroneTask(int droneId, int startZone, int endZone) override {
+        if (deliveryGraph.find(startZone) == deliveryGraph.end() || deliveryGraph.find(endZone) == deliveryGraph.end()) {
+            cout &lt;&lt; "One or both zones do not exist." &lt;&lt; endl;
+            return;
+        }
+        droneTasks.push({droneId, {startZone, endZone}});
+        cout &lt;&lt; "Task assigned to Drone " &lt;&lt; droneId &lt;&lt; ": Deliver from Zone " &lt;&lt; startZone &lt;&lt; " to Zone " &lt;&lt; endZone &lt;&lt; "." &lt;&lt; endl;
+    }
+
+    // Process all drone deliveries
+    void processDeliveries() override {
+        while (!droneTasks.empty()) {
+            auto task = droneTasks.front();
+            droneTasks.pop();
+
+            int droneId = task.first;
+            int startZone = task.second.first;
+            int endZone = task.second.second;
+
+            int shortestTime = findShortestDeliveryTime(startZone, endZone);
+            if (shortestTime != -1) {
+                cout &lt;&lt; "Drone " &lt;&lt; droneId &lt;&lt; " completed delivery from Zone " &lt;&lt; startZone &lt;&lt; " to Zone " &lt;&lt; endZone
+                     &lt;&lt; " in " &lt;&lt; shortestTime &lt;&lt; " minutes." &lt;&lt; endl;
+                droneLocations[droneId] = endZone; // Update drone location
+            } else {
+                cout &lt;&lt; "Drone " &lt;&lt; droneId &lt;&lt; " could not complete delivery from Zone " &lt;&lt; startZone &lt;&lt; " to Zone "
+                     &lt;&lt; endZone &lt;&lt; ". No valid route found." &lt;&lt; endl;
+            }
+        }
+    }
+
+    ~DroneDeliverySystem() override = default;
+};
+
+int main() {
+    DroneDeliveryADT* system = new DroneDeliverySystem();
+    int choice;
+
+    do {
+        cout &lt;&lt; "\n--- Drone Delivery System Menu ---\n";
+        cout &lt;&lt; "1. Add Delivery Zone\n";
+        cout &lt;&lt; "2. Add Delivery Route\n";
+        cout &lt;&lt; "3. Assign Drone Task\n";
+        cout &lt;&lt; "4. Process Deliveries\n";
+        cout &lt;&lt; "5. Exit\n";
+        cout &lt;&lt; "Enter your choice: ";
+        cin &gt;&gt; choice;
+
+        switch (choice) {
+            case 1: {
+                int id;
+                cout &lt;&lt; "Enter zone ID: ";
+                cin &gt;&gt; id;
+                system-&gt;addZone(id);
+                break;
+            }
+            case 2: {
+                int from, to, deliveryTime;
+                cout &lt;&lt; "Enter starting zone ID: ";
+                cin &gt;&gt; from;
+                cout &lt;&lt; "Enter destination zone ID: ";
+                cin &gt;&gt; to;
+                cout &lt;&lt; "Enter delivery time (minutes): ";
+                cin &gt;&gt; deliveryTime;
+                system-&gt;addRoute(from, to, deliveryTime);
+                break;
+            }
+            case 3: {
+                int droneId, startZone, endZone;
+                cout &lt;&lt; "Enter drone ID: ";
+                cin &gt;&gt; droneId;
+                cout &lt;&lt; "Enter starting zone ID: ";
+                cin &gt;&gt; startZone;
+                cout &lt;&lt; "Enter destination zone ID: ";
+                cin &gt;&gt; endZone;
+                system-&gt;assignDroneTask(droneId, startZone, endZone);
+                break;
+            }
+            case 4: {
+                system-&gt;processDeliveries();
+                break;
+            }
+            case 5: {
+                cout &lt;&lt; "Exiting the system. Goodbye!" &lt;&lt; endl;
+                break;
+            }
+            default: {
+                cout &lt;&lt; "Invalid choice! Please try again." &lt;&lt; endl;
+                break;
+            }
+        }
+    } while (choice != 5);
+
+    delete system; // Cleanup
+    return 0;
+}
+    </code></pre>
+
+</body>
+</html>
 
