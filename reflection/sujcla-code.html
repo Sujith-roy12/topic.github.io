@@ -1,1 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C++ Code: Traffic Enforcement System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+        pre {
+            background-color: #272822;
+            color: white;
+            padding: 20px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        code {
+            font-family: 'Courier New', monospace;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>C++ Code: Traffic Enforcement System</h1>
+    <p>This is the C++ code for the Traffic Enforcement System, which allows the addition of intersections and roads, deployment of drones to monitor traffic, and displays traffic data.</p>
+    
+    <pre><code>
+#include &lt;iostream&gt;
+#include &lt;unordered_map&gt;
+#include &lt;vector&gt;
+#include &lt;queue&gt;
+#include &lt;string&gt;
+
+using namespace std;
+
+// Structure to represent a road connection
+struct Road {
+    int destination;   // Destination intersection
+    int trafficLevel;  // Current traffic level on the road
+
+    Road(int dest, int traffic) : destination(dest), trafficLevel(traffic) {}
+};
+
+// Abstract Data Type for Traffic Enforcement System
+class TrafficEnforcementADT {
+public:
+    virtual void addIntersection(int id) = 0;
+    virtual void addRoad(int from, int to, int trafficLevel) = 0;
+    virtual void deployDrone(int droneId, int startIntersection) = 0;
+    virtual void monitorTraffic(int droneId) = 0;
+    virtual ~TrafficEnforcementADT() {}
+};
+
+// Implementation of TrafficEnforcementADT
+class TrafficEnforcementSystem : public TrafficEnforcementADT {
+private:
+    unordered_map&lt;int, vector&lt;Road&gt;&gt; cityGraph;        // Graph representing intersections and roads
+    unordered_map&lt;int, int&gt; drones;                   // Drone ID and its current position
+    unordered_map&lt;int, int&gt; trafficData;              // Traffic level at each intersection
+
+public:
+    // Add an intersection to the graph
+    void addIntersection(int id) override {
+        if (cityGraph.find(id) != cityGraph.end()) {
+            cout &lt;&lt; "Intersection " &lt;&lt; id &lt;&lt; " already exists." &lt;&lt; endl;
+            return;
+        }
+        cityGraph[id] = vector&lt;Road&gt;();
+        cout &lt;&lt; "Intersection " &lt;&lt; id &lt;&lt; " added successfully." &lt;&lt; endl;
+    }
+
+    // Add a road between two intersections
+    void addRoad(int from, int to, int trafficLevel) override {
+        if (cityGraph.find(from) == cityGraph.end() || cityGraph.find(to) == cityGraph.end()) {
+            cout &lt;&lt; "One or both intersections do not exist." &lt;&lt; endl;
+            return;
+        }
+        cityGraph[from].emplace_back(to, trafficLevel);
+        cityGraph[to].emplace_back(from, trafficLevel); // Assuming bidirectional roads
+        cout &lt;&lt; "Road added between " &lt;&lt; from &lt;&lt; " and " &lt;&lt; to &lt;&lt; " with traffic level " &lt;&lt; trafficLevel &lt;&lt; "." &lt;&lt; endl;
+    }
+
+    // Deploy a drone at a specific intersection
+    void deployDrone(int droneId, int startIntersection) override {
+        if (cityGraph.find(startIntersection) == cityGraph.end()) {
+            cout &lt;&lt; "Intersection " &lt;&lt; startIntersection &lt;&lt; " does not exist." &lt;&lt; endl;
+            return;
+        }
+        drones[droneId] = startIntersection;
+        cout &lt;&lt; "Drone " &lt;&lt; droneId &lt;&lt; " deployed at intersection " &lt;&lt; startIntersection &lt;&lt; "." &lt;&lt; endl;
+    }
+
+    // Monitor traffic using a drone
+    void monitorTraffic(int droneId) override {
+        if (drones.find(droneId) == drones.end()) {
+            cout &lt;&lt; "Drone " &lt;&lt; droneId &lt;&lt; " is not deployed." &lt;&lt; endl;
+            return;
+        }
+
+        int currentPosition = drones[droneId];
+        cout &lt;&lt; "Drone " &lt;&lt; droneId &lt;&lt; " monitoring traffic from intersection " &lt;&lt; currentPosition &lt;&lt; "." &lt;&lt; endl;
+
+        for (const Road& road : cityGraph[currentPosition]) {
+            cout &lt;&lt; "Road to intersection " &lt;&lt; road.destination
+                 &lt;&lt; " has traffic level: " &lt;&lt; road.trafficLevel &lt;&lt; endl;
+
+            // Update traffic data
+            trafficData[road.destination] += road.trafficLevel;
+        }
+    }
+
+    // Display current traffic data
+    void displayTrafficData() {
+        cout &lt;&lt; "\n--- Traffic Data ---" &lt;&lt; endl;
+        for (const auto& pair : trafficData) {
+            cout &lt;&lt; "Intersection " &lt;&lt; pair.first
+                 &lt;&lt; " has cumulative traffic level: " &lt;&lt; pair.second &lt;&lt; endl;
+        }
+    }
+
+    ~TrafficEnforcementSystem() override = default;
+};
+
+int main() {
+    TrafficEnforcementADT* system = new TrafficEnforcementSystem();
+    int choice;
+
+    do {
+        cout &lt;&lt; "\n--- Traffic Enforcement Drone System Menu ---\n";
+        cout &lt;&lt; "1. Add Intersection\n";
+        cout &lt;&lt; "2. Add Road\n";
+        cout &lt;&lt; "3. Deploy Drone\n";
+        cout &lt;&lt; "4. Monitor Traffic\n";
+        cout &lt;&lt; "5. Display Traffic Data\n";
+        cout &lt;&lt; "6. Exit\n";
+        cout &lt;&lt; "Enter your choice: ";
+        cin &gt;&gt; choice;
+
+        switch (choice) {
+            case 1: {
+                int id;
+                cout &lt;&lt; "Enter intersection ID: ";
+                cin &gt;&gt; id;
+                system-&gt;addIntersection(id);
+                break;
+            }
+            case 2: {
+                int from, to, trafficLevel;
+                cout &lt;&lt; "Enter starting intersection ID: ";
+                cin &gt;&gt; from;
+                cout &lt;&lt; "Enter destination intersection ID: ";
+                cin &gt;&gt; to;
+                cout &lt;&lt; "Enter traffic level: ";
+                cin &gt;&gt; trafficLevel;
+                system-&gt;addRoad(from, to, trafficLevel);
+                break;
+            }
+            case 3: {
+                int droneId, startIntersection;
+                cout &lt;&lt; "Enter drone ID: ";
+                cin &gt;&gt; droneId;
+                cout &lt;&lt; "Enter starting intersection ID: ";
+                cin &gt;&gt; startIntersection;
+                system-&gt;deployDrone(droneId, startIntersection);
+                break;
+            }
+            case 4: {
+                int droneId;
+                cout &lt;&lt; "Enter drone ID: ";
+                cin &gt;&gt; droneId;
+                system-&gt;monitorTraffic(droneId);
+                break;
+            }
+            case 5: {
+                system-&gt;displayTrafficData();
+                break;
+            }
+            case 6: {
+                cout &lt;&lt; "Exiting the system. Goodbye!" &lt;&lt; endl;
+                break;
+            }
+            default: {
+                cout &lt;&lt; "Invalid choice! Please try again." &lt;&lt; endl;
+                break;
+            }
+        }
+    } while (choice != 6);
+
+    delete system; // Cleanup
+    return 0;
+}
+    </code></pre>
+
+</body>
+</html>
 
