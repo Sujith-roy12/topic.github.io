@@ -3,176 +3,193 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Smart Parking System</title>
+    <title>C++ Code Display</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            margin: 0;
+            line-height: 1.6;
+            background-color: #f4f4f4;
             padding: 20px;
-            background-color: #f4f4f9;
         }
-        h1 {
-            text-align: center;
-        }
-        .menu, .action-form {
-            max-width: 600px;
-            margin: 0 auto;
+        pre {
+            background-color: #272822;
+            color: white;
             padding: 20px;
-            background-color: #ffffff;
-            border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+            overflow-x: auto;
         }
-        .menu button {
-            padding: 10px 20px;
-            margin: 10px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        .menu button:hover {
-            background-color: #0056b3;
-        }
-        .action-form input, .action-form select {
-            padding: 10px;
-            width: 100%;
-            margin: 10px 0;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-        .action-form button {
-            width: 100%;
-            padding: 10px;
-            background-color: #28a745;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        .action-form button:hover {
-            background-color: #218838;
-        }
-        .output {
-            padding: 10px;
-            margin-top: 20px;
-            background-color: #e9ecef;
-            border-radius: 4px;
+        code {
+            font-family: 'Courier New', monospace;
         }
     </style>
 </head>
 <body>
-    <h1>Smart Parking System</h1>
 
-    <div class="menu">
-        <button onclick="showAddSpotForm()">Add Parking Spot</button>
-        <button onclick="showUpdateAvailabilityForm()">Update Spot Availability</button>
-        <button onclick="findNearestSpot()">Find Nearest Spot</button>
-        <button onclick="displayAvailableSpots()">Display Available Spots</button>
-    </div>
+    <h1>C++ Code: Parking System</h1>
+    <p>This is the C++ code for a smart parking system that utilizes a priority queue and hash map.</p>
+    
+    <pre><code>
+#include &lt;iostream&gt;
+#include &lt;unordered_map&gt;
+#include &lt;queue&gt;
+#include &lt;string&gt;
 
-    <div id="addSpotForm" class="action-form" style="display: none;">
-        <h3>Add Parking Spot</h3>
-        <label for="spotId">Spot ID:</label>
-        <input type="text" id="spotId" placeholder="Enter spot ID">
-        <label for="distance">Distance from entrance:</label>
-        <input type="number" id="distance" placeholder="Enter distance">
-        <button onclick="addParkingSpot()">Add Spot</button>
-    </div>
+using namespace std;
 
-    <div id="updateAvailabilityForm" class="action-form" style="display: none;">
-        <h3>Update Spot Availability</h3>
-        <label for="updateSpotId">Spot ID:</label>
-        <input type="text" id="updateSpotId" placeholder="Enter spot ID">
-        <label for="availability">Availability:</label>
-        <select id="availability">
-            <option value="true">Available</option>
-            <option value="false">Unavailable</option>
-        </select>
-        <button onclick="updateSpotAvailability()">Update Availability</button>
-    </div>
+// Parking spot structure
+struct ParkingSpot {
+    string id;       // Unique ID
+    int distance;    // Distance from entrance
+    bool available;  // Availability status
 
-    <div id="output" class="output"></div>
+    ParkingSpot(string id, int distance, bool available = true)
+        : id(id), distance(distance), available(available) {}
+};
 
-    <script>
-        let parkingSpots = {};
+// Comparator for min heap
+struct Compare {
+    bool operator()(const ParkingSpot* a, const ParkingSpot* b) {
+        return a-&gt;distance &gt; b-&gt;distance; // Min heap based on distance
+    }
+};
 
-        function showAddSpotForm() {
-            document.getElementById('addSpotForm').style.display = 'block';
-            document.getElementById('updateAvailabilityForm').style.display = 'none';
-            document.getElementById('output').innerHTML = '';
+// Abstract Data Type: ParkingSystem
+class ParkingSystemADT {
+private:
+    unordered_map&lt;string, ParkingSpot*&gt; spots;  // Hash table for fast access
+    priority_queue&lt;ParkingSpot*, vector&lt;ParkingSpot*&gt;, Compare&gt; minHeap;  // Min heap for nearest spot
+
+public:
+    // Adds a parking spot to the system
+    virtual void addSpot(const string&amp; id, int distance) = 0;
+
+    // Updates the availability of a parking spot
+    virtual void updateAvailability(const string&amp; id, bool available) = 0;
+
+    // Finds and reserves the nearest available parking spot
+    virtual string findNearestSpot() = 0;
+
+    // Displays all available parking spots
+    virtual void displayAvailableSpots() const = 0;
+
+    // Destructor for cleanup
+    virtual ~ParkingSystemADT() {}
+};
+
+// Implementation of ParkingSystemADT
+class ParkingSystem : public ParkingSystemADT {
+public:
+    void addSpot(const string&amp; id, int distance) override {
+        if (spots.find(id) != spots.end()) {
+            cout &lt;&lt; "Spot " &lt;&lt; id &lt;&lt; " already exists." &lt;&lt; endl;
+            return;
         }
+        ParkingSpot* spot = new ParkingSpot(id, distance);
+        spots[id] = spot;
+        minHeap.push(spot);
+        cout &lt;&lt; "Spot " &lt;&lt; id &lt;&lt; " added successfully." &lt;&lt; endl;
+    }
 
-        function showUpdateAvailabilityForm() {
-            document.getElementById('updateAvailabilityForm').style.display = 'block';
-            document.getElementById('addSpotForm').style.display = 'none';
-            document.getElementById('output').innerHTML = '';
+    void updateAvailability(const string&amp; id, bool available) override {
+        if (spots.find(id) == spots.end()) {
+            cout &lt;&lt; "Spot " &lt;&lt; id &lt;&lt; " does not exist." &lt;&lt; endl;
+            return;
         }
+        spots[id]-&gt;available = available;
+        cout &lt;&lt; "Spot " &lt;&lt; id &lt;&lt; " availability updated." &lt;&lt; endl;
+    }
 
-        function addParkingSpot() {
-            const spotId = document.getElementById('spotId').value;
-            const distance = document.getElementById('distance').value;
+    string findNearestSpot() override {
+        while (!minHeap.empty()) {
+            ParkingSpot* nearest = minHeap.top();
+            minHeap.pop();
+            if (nearest-&gt;available) {
+                nearest-&gt;available = false; // Reserve the spot
+                return nearest-&gt;id;
+            }
+        }
+        return "No available spots.";
+    }
 
-            if (spotId && distance) {
-                if (parkingSpots[spotId]) {
-                    showOutput(`Spot ${spotId} already exists.`);
+    void displayAvailableSpots() const override {
+        cout &lt;&lt; "Available spots: ";
+        for (const auto&amp; pair : spots) {
+            if (pair.second-&gt;available) {
+                cout &lt;&lt; pair.second-&gt;id &lt;&lt; " ";
+            }
+        }
+        cout &lt;&lt; endl;
+    }
+
+    ~ParkingSystem() override {
+        for (auto&amp; pair : spots) {
+            delete pair.second;  // Free allocated memory
+        }
+    }
+};
+
+int main() {
+    ParkingSystemADT* system = new ParkingSystem();
+    int choice;
+
+    do {
+        cout &lt;&lt; "\n--- Smart Parking System Menu ---\n";
+        cout &lt;&lt; "1. Add Parking Spot\n";
+        cout &lt;&lt; "2. Update Spot Availability\n";
+        cout &lt;&lt; "3. Find Nearest Spot\n";
+        cout &lt;&lt; "4. Display Available Spots\n";
+        cout &lt;&lt; "5. Exit\n";
+        cout &lt;&lt; "Enter your choice: ";
+        cin &gt;&gt; choice;
+
+        switch (choice) {
+            case 1: {
+                string id;
+                int distance;
+                cout &lt;&lt; "Enter spot ID: ";
+                cin &gt;&gt; id;
+                cout &lt;&lt; "Enter distance from entrance: ";
+                cin &gt;&gt; distance;
+                system-&gt;addSpot(id, distance);
+                break;
+            }
+            case 2: {
+                string id;
+                bool available;
+                cout &lt;&lt; "Enter spot ID: ";
+                cin &gt;&gt; id;
+                cout &lt;&lt; "Enter availability (1 for available, 0 for unavailable): ";
+                cin &gt;&gt; available;
+                system-&gt;updateAvailability(id, available);
+                break;
+            }
+            case 3: {
+                string nearestSpot = system-&gt;findNearestSpot();
+                if (nearestSpot == "No available spots.") {
+                    cout &lt;&lt; nearestSpot &lt;&lt; endl;
                 } else {
-                    parkingSpots[spotId] = { id: spotId, distance: parseInt(distance), available: true };
-                    showOutput(`Spot ${spotId} added successfully.`);
+                    cout &lt;&lt; "Nearest available spot reserved: " &lt;&lt; nearestSpot &lt;&lt; endl;
                 }
-            } else {
-                showOutput("Please enter valid Spot ID and Distance.");
+                break;
+            }
+            case 4: {
+                system-&gt;displayAvailableSpots();
+                break;
+            }
+            case 5: {
+                cout &lt;&lt; "Exiting the system. Goodbye!" &lt;&lt; endl;
+                break;
+            }
+            default: {
+                cout &lt;&lt; "Invalid choice! Please try again." &lt;&lt; endl;
+                break;
             }
         }
+    } while (choice != 5);
 
-        function updateSpotAvailability() {
-            const spotId = document.getElementById('updateSpotId').value;
-            const availability = document.getElementById('availability').value === 'true';
-
-            if (spotId && parkingSpots[spotId]) {
-                parkingSpots[spotId].available = availability;
-                showOutput(`Spot ${spotId} availability updated.`);
-            } else {
-                showOutput(`Spot ${spotId} does not exist.`);
-            }
-        }
-
-        function findNearestSpot() {
-            let nearestSpot = null;
-
-            for (let spotId in parkingSpots) {
-                if (parkingSpots[spotId].available) {
-                    if (!nearestSpot || parkingSpots[spotId].distance < nearestSpot.distance) {
-                        nearestSpot = parkingSpots[spotId];
-                    }
-                }
-            }
-
-            if (nearestSpot) {
-                nearestSpot.available = false;
-                showOutput(`Nearest available spot reserved: ${nearestSpot.id}`);
-            } else {
-                showOutput("No available spots.");
-            }
-        }
-
-        function displayAvailableSpots() {
-            const availableSpots = Object.values(parkingSpots)
-                .filter(spot => spot.available)
-                .map(spot => spot.id)
-                .join(', ');
-
-            if (availableSpots) {
-                showOutput(`Available spots: ${availableSpots}`);
-            } else {
-                showOutput("No available spots.");
-            }
-        }
-
-        function showOutput(message) {
-            document.getElementById('output').innerHTML = message;
-        }
-    </script>
+    delete system; // Cleanup
+    return 0;
+}
+    </code></pre>
 </body>
 </html>
-
