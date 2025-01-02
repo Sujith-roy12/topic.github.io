@@ -1,1 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C++ Code Display</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+        pre {
+            background-color: #272822;
+            color: white;
+            padding: 20px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        code {
+            font-family: 'Courier New', monospace;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>C++ Code: Dijkstra's Algorithm for Safe Route</h1>
+    <p>This is the C++ code for finding the shortest safe route between two locations using Dijkstra's algorithm. Flooded roads are represented with an infinite weight.</p>
+    
+    <pre><code>
+#include &lt;iostream&gt;
+#include &lt;vector&gt;
+#include &lt;queue&gt;
+#include &lt;climits&gt;
+#include &lt;algorithm&gt; // For reverse
+
+using namespace std;
+
+// Define a structure to represent an edge
+struct Edge {
+    int to;
+    int weight;
+};
+
+// Function to perform Dijkstra's Algorithm
+vector&lt;int&gt; dijkstra(int V, vector&lt;vector&lt;Edge&gt;&gt;&amp; adj, int start, int end) {
+    // Distance vector to store the shortest distances from the start node
+    vector&lt;int&gt; dist(V, INT_MAX);
+    // Parent vector to reconstruct the path
+    vector&lt;int&gt; parent(V, -1);
+
+    // Min-heap priority queue to process nodes by shortest distance
+    priority_queue&lt;pair&lt;int, int&gt;, vector&lt;pair&lt;int, int&gt;&gt;, greater&lt;&gt;&gt; pq;
+
+    // Initialize the source node
+    dist[start] = 0;
+    pq.push({0, start}); // {distance, node}
+
+    while (!pq.empty()) {
+        int currentDist = pq.top().first;
+        int currentNode = pq.top().second;
+        pq.pop();
+
+        // Skip processing if we already have a shorter path
+        if (currentDist &gt; dist[currentNode]) continue;
+
+        // Process neighbors of the current node
+        for (const Edge&amp; edge : adj[currentNode]) {
+            int neighbor = edge.to;
+            int weight = edge.weight;
+
+            // Skip flooded roads
+            if (weight == INT_MAX) continue;
+
+            // Relaxation step: Update distance if a shorter path is found
+            if (dist[currentNode] + weight &lt; dist[neighbor]) {
+                dist[neighbor] = dist[currentNode] + weight;
+                parent[neighbor] = currentNode;
+                pq.push({dist[neighbor], neighbor});
+            }
+        }
+    }
+
+    // Reconstruct the path from parent array
+    vector&lt;int&gt; path;
+    for (int v = end; v != -1; v = parent[v]) {
+        path.push_back(v);
+    }
+    reverse(path.begin(), path.end());
+
+    return (path.size() &gt; 1 && path[0] == start) ? path : vector&lt;int&gt;();
+}
+
+int main() {
+    // Input for the graph
+    int V, E;
+    cout &lt;&lt; "Enter the number of locations (nodes): ";
+    cin &gt;&gt; V;
+    cout &lt;&lt; "Enter the number of roads (edges): ";
+    cin &gt;&gt; E;
+
+    // Adjacency list to store the graph
+    vector&lt;vector&lt;Edge&gt;&gt; adj(V);
+
+    cout &lt;&lt; "Enter the roads (node1, node2, weight, isFlooded (0 or 1)):" &lt;&lt; endl;
+    for (int i = 0; i &lt; E; i++) {
+        int u, v, weight, flooded;
+        cin &gt;&gt; u &gt;&gt; v &gt;&gt; weight &gt;&gt; flooded;
+
+        // Set flooded road weight to infinity (INT_MAX)
+        if (flooded == 1) {
+            weight = INT_MAX;
+        }
+
+        // Add the edge to the adjacency list (undirected graph)
+        adj[u].push_back({v, weight});
+        adj[v].push_back({u, weight});
+    }
+
+    int start, end;
+    cout &lt;&lt; "Enter the starting and ending locations for routing: ";
+    cin &gt;&gt; start &gt;&gt; end;
+
+    // Ensure start and end are valid
+    if (start &lt; 0 || start &gt;= V || end &lt; 0 || end &gt;= V) {
+        cout &lt;&lt; "Invalid start or end location!" &lt;&lt; endl;
+        return 1;
+    }
+
+    // Find the shortest path using Dijkstra's Algorithm
+    vector&lt;int&gt; shortestPath = dijkstra(V, adj, start, end);
+
+    // Output the result
+    cout &lt;&lt; "Shortest Safe Route from " &lt;&lt; start &lt;&lt; " to " &lt;&lt; end &lt;&lt; ": ";
+    if (!shortestPath.empty()) {
+        for (int loc : shortestPath) {
+            cout &lt;&lt; loc &lt;&lt; " ";
+        }
+        cout &lt;&lt; endl;
+    } else {
+        cout &lt;&lt; "No safe route available!" &lt;&lt; endl;
+    }
+
+    return 0;
+}
+    </code></pre>
+</body>
+</html>
 
