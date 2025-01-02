@@ -1,1 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C++ Code: Priority Lane System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+        pre {
+            background-color: #272822;
+            color: white;
+            padding: 20px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        code {
+            font-family: 'Courier New', monospace;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>C++ Code: Priority Lane System</h1>
+    <p>This is the C++ code for the Priority Lane System, which uses a priority queue to find the fastest route for different types of vehicles based on their priority level.</p>
+    
+    <pre><code>
+#include &lt;iostream&gt;
+#include &lt;vector&gt;
+#include &lt;unordered_map&gt;
+#include &lt;queue&gt;
+#include &lt;climits&gt;
+
+using namespace std;
+
+// Structure to represent a road connection
+struct Road {
+    int destination;
+    int weight; // Weight can represent time, distance, or traffic level
+
+    Road(int dest, int wt) : destination(dest), weight(wt) {}
+};
+
+// Comparator for priority queue (min-heap)
+struct Compare {
+    bool operator()(const pair&lt;int, int&gt;& a, const pair&lt;int, int&gt;& b) {
+        return a.second &gt; b.second; // Min-heap based on shortest distance
+    }
+};
+
+// Abstract Data Type for Priority Lane System
+class PriorityLaneADT {
+public:
+    virtual void addRoad(int from, int to, int weight) = 0;
+    virtual void findFastestRoute(int source, int vehiclePriority) = 0;
+    virtual ~PriorityLaneADT() {}
+};
+
+// Implementation of PriorityLaneADT
+class PriorityLaneSystem : public PriorityLaneADT {
+private:
+    unordered_map&lt;int, vector&lt;Road&gt;&gt; graph; // Adjacency list for the graph
+    vector&lt;string&gt; vehicleTypes = {"Emergency Services", "Heavy-Duty Vehicles", "Regular Vehicles"};
+
+public:
+    // Add a road between two nodes
+    void addRoad(int from, int to, int weight) override {
+        graph[from].emplace_back(to, weight);
+        graph[to].emplace_back(from, weight); // Assuming undirected roads
+        cout &lt;&lt; "Road added between " &lt;&lt; from &lt;&lt; " and " &lt;&lt; to &lt;&lt; " with weight " &lt;&lt; weight &lt;&lt; "." &lt;&lt; endl;
+    }
+
+    // Find the fastest route using Dijkstra's algorithm
+    void findFastestRoute(int source, int vehiclePriority) override {
+        unordered_map&lt;int, int&gt; distance;
+        for (const auto& node : graph) {
+            distance[node.first] = INT_MAX;
+        }
+
+        // Priority queue to store (node, distance)
+        priority_queue&lt;pair&lt;int, int&gt;, vector&lt;pair&lt;int, int&gt;&gt;, Compare&gt; pq;
+        distance[source] = 0;
+        pq.push({source, 0});
+
+        cout &lt;&lt; "\nFinding fastest route for: " &lt;&lt; vehicleTypes[vehiclePriority - 1] &lt;&lt; endl;
+
+        while (!pq.empty()) {
+            int current = pq.top().first;
+            int currentDistance = pq.top().second;
+            pq.pop();
+
+            if (currentDistance &gt; distance[current]) continue;
+
+            for (const Road& road : graph[current]) {
+                int newDistance = currentDistance + road.weight;
+                // Add priority-based weight reduction for emergency vehicles
+                if (vehiclePriority == 1) { // Emergency Services
+                    newDistance -= 2; // Reduced weight for emergency vehicles
+                } else if (vehiclePriority == 2) { // Heavy-Duty Vehicles
+                    newDistance += 1; // Slightly higher weight for heavy vehicles
+                }
+
+                if (newDistance &lt; distance[road.destination]) {
+                    distance[road.destination] = newDistance;
+                    pq.push({road.destination, newDistance});
+                }
+            }
+        }
+
+        // Display shortest distances from source
+        cout &lt;&lt; "Fastest routes from node " &lt;&lt; source &lt;&lt; ":" &lt;&lt; endl;
+        for (const auto& pair : distance) {
+            cout &lt;&lt; "Node " &lt;&lt; pair.first &lt;&lt; " -&gt; Distance: ";
+            if (pair.second == INT_MAX) {
+                cout &lt;&lt; "Unreachable" &lt;&lt; endl;
+            } else {
+                cout &lt;&lt; pair.second &lt;&lt; endl;
+            }
+        }
+    }
+};
+
+int main() {
+    PriorityLaneADT* system = new PriorityLaneSystem();
+    int choice;
+
+    do {
+        cout &lt;&lt; "\n--- Priority Lane System Menu ---\n";
+        cout &lt;&lt; "1. Add Road\n";
+        cout &lt;&lt; "2. Find Fastest Route\n";
+        cout &lt;&lt; "3. Exit\n";
+        cout &lt;&lt; "Enter your choice: ";
+        cin &gt;&gt; choice;
+
+        switch (choice) {
+            case 1: {
+                int from, to, weight;
+                cout &lt;&lt; "Enter starting node: ";
+                cin &gt;&gt; from;
+                cout &lt;&lt; "Enter destination node: ";
+                cin &gt;&gt; to;
+                cout &lt;&lt; "Enter weight (time/distance/traffic level): ";
+                cin &gt;&gt; weight;
+                system-&gt;addRoad(from, to, weight);
+                break;
+            }
+            case 2: {
+                int source, vehicleType;
+                cout &lt;&lt; "Enter source node: ";
+                cin &gt;&gt; source;
+                cout &lt;&lt; "Select vehicle type (1 = Emergency Services, 2 = Heavy-Duty Vehicles, 3 = Regular Vehicles): ";
+                cin &gt;&gt; vehicleType;
+                if (vehicleType &lt; 1 || vehicleType &gt; 3) {
+                    cout &lt;&lt; "Invalid vehicle type! Please try again." &lt;&lt; endl;
+                } else {
+                    system-&gt;findFastestRoute(source, vehicleType);
+                }
+                break;
+            }
+            case 3: {
+                cout &lt;&lt; "Exiting the system. Goodbye!" &lt;&lt; endl;
+                break;
+            }
+            default: {
+                cout &lt;&lt; "Invalid choice! Please try again." &lt;&lt; endl;
+                break;
+            }
+        }
+    } while (choice != 3);
+
+    delete system; // Cleanup
+    return 0;
+}
+    </code></pre>
+
+</body>
+</html>
 
