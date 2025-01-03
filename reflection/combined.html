@@ -1,1 +1,117 @@
+int main() {
+    CombinedSystem system;
+    int choice;
+
+    do {
+        cout << "\n--- Combined System Menu ---\n";
+        cout << "1. Add Parking Spot\n";
+        cout << "2. Update Parking Spot Availability\n";
+        cout << "3. Find Nearest Parking Spot\n";
+        cout << "4. Display Available Parking Spots\n";
+        cout << "5. Add Road\n";
+        cout << "6. Find Shortest Safe Route\n";
+        cout << "7. Report Accident\n";
+        cout << "8. Process Next Accident\n";
+        cout << "9. Display Pending Accidents\n";
+        cout << "0. Exit\n";
+        cout << "Enter your choice: ";
+        cin >> choice;
+
+        switch (choice) {
+            case 1: {
+                string id;
+                int distance;
+                cout << "Enter Parking Spot ID: ";
+                cin >> id;
+                cout << "Enter Distance: ";
+                cin >> distance;
+                system.addParkingSpot(id, distance);
+                cout << "Parking Spot added successfully.\n";
+                break;
+            }
+            case 2: {
+                string id;
+                bool available;
+                cout << "Enter Parking Spot ID: ";
+                cin >> id;
+                cout << "Enter Availability (1 for available, 0 for unavailable): ";
+                cin >> available;
+                system.updateParkingAvailability(id, available);
+                cout << "Parking Spot availability updated.\n";
+                break;
+            }
+            case 3: {
+                string nearestSpot = system.findNearestParkingSpot();
+                if (!nearestSpot.empty()) {
+                    cout << "Nearest Available Parking Spot: " << nearestSpot << endl;
+                } else {
+                    cout << "No available parking spots found.\n";
+                }
+                break;
+            }
+            case 4: {
+                system.displayAvailableParkingSpots();
+                break;
+            }
+            case 5: {
+                int from, to, weight;
+                cout << "Enter Source Node: ";
+                cin >> from;
+                cout << "Enter Destination Node: ";
+                cin >> to;
+                cout << "Enter Road Weight (Distance): ";
+                cin >> weight;
+                system.addRoad(from, to, weight);
+                cout << "Road added successfully.\n";
+                break;
+            }
+            case 6: {
+                int start, destination;
+                cout << "Enter Start Node: ";
+                cin >> start;
+                cout << "Enter Destination Node: ";
+                cin >> destination;
+                vector<int> path = system.findShortestSafeRoute(start, destination);
+                if (!path.empty()) {
+                    cout << "Shortest Path: ";
+                    for (int node : path) {
+                        cout << node << " ";
+                    }
+                    cout << endl;
+                } else {
+                    cout << "No route found.\n";
+                }
+                break;
+            }
+            case 7: {
+                string location;
+                int severity, timestamp;
+                cout << "Enter Accident Location: ";
+                cin >> location;
+                cout << "Enter Severity (1-10): ";
+                cin >> severity;
+                cout << "Enter Timestamp (e.g., 1630): ";
+                cin >> timestamp;
+                system.reportAccident(location, severity, timestamp);
+                cout << "Accident reported successfully.\n";
+                break;
+            }
+            case 8: {
+                system.processNextAccident();
+                break;
+            }
+            case 9: {
+                system.displayPendingAccidents();
+                break;
+            }
+            case 0:
+                cout << "Exiting the system. Goodbye!\n";
+                break;
+            default:
+                cout << "Invalid choice. Please try again.\n";
+        }
+    } while (choice != 0);
+
+    return 0;
+}
 
