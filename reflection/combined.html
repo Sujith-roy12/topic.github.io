@@ -1,117 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complete C++ Code Display</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        header {
+            background-color: #0078D4;
+            color: white;
+            padding: 10px;
+            text-align: center;
+        }
+        .container {
+            display: flex;
+        }
+        .menu {
+            width: 250px;
+            background-color: #2f3640;
+            color: white;
+            padding: 10px;
+            height: 100vh;
+            overflow-y: auto;
+        }
+        .menu ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .menu ul li {
+            margin: 10px 0;
+        }
+        .menu ul li a {
+            color: white;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .menu ul li a:hover {
+            text-decoration: underline;
+        }
+        .content {
+            flex-grow: 1;
+            padding: 20px;
+            background-color: white;
+            overflow-y: auto;
+            height: 100vh;
+        }
+        pre {
+            background-color: #1e272e;
+            color: #dcdde1;
+            padding: 15px;
+            overflow-x: auto;
+            border-radius: 5px;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>C++ Code Display</h1>
+    </header>
+    <div class="container">
+        <nav class="menu">
+            <ul>
+                <li><a onclick="showSection('intro')">Introduction</a></li>
+                <li><a onclick="showSection('includes')">Includes</a></li>
+                <li><a onclick="showSection('structures')">Structures</a></li>
+                <li><a onclick="showSection('adt')">Combined System ADT</a></li>
+                <li><a onclick="showSection('implementation')">Combined System Implementation</a></li>
+                <li><a onclick="showSection('main')">Main Function</a></li>
+            </ul>
+        </nav>
+        <div class="content">
+            <div id="intro">
+                <h2>Introduction</h2>
+                <p>This file displays the C++ code for a combined system that integrates parking, road management, accident handling, traffic enforcement, and drone delivery systems. The code is structured to demonstrate modularity and functionality through an abstract data type and its implementation.</p>
+            </div>
+            <div id="includes" class="hidden">
+                <h2>Includes</h2>
+                <pre>
+#include &lt;iostream&gt;
+#include &lt;vector&gt;
+#include &lt;unordered_map&gt;
+#include &lt;unordered_set&gt;
+#include &lt;queue&gt;
+#include &lt;climits&gt;
+#include &lt;string&gt;
+#include &lt;algorithm&gt;
+
+using namespace std;
+                </pre>
+            </div>
+            <div id="structures" class="hidden">
+                <h2>Structures</h2>
+                <pre>
+// Structure to represent a parking spot
+struct ParkingSpot {
+    string id;
+    int distance;
+    bool available;
+
+    ParkingSpot(string id, int distance, bool available = true)
+        : id(id), distance(distance), available(available) {}
+};
+
+// Structure to represent a road connection
+struct Road {
+    int destination;
+    int weight;
+
+    Road(int dest, int wt) : destination(dest), weight(wt) {}
+};
+
+// Comparator for priority queue (min-heap)
+struct Compare {
+    bool operator()(const pair&lt;int, int&gt;& a, const pair&lt;int, int&gt;& b) {
+        return a.second > b.second;
+    }
+};
+                </pre>
+            </div>
+            <div id="adt" class="hidden">
+                <h2>Combined System ADT</h2>
+                <pre>
+class CombinedSystemADT {
+public:
+    virtual void addParkingSpot(const string& id, int distance) = 0;
+    virtual void updateParkingAvailability(const string& id, bool available) = 0;
+    virtual string findNearestParkingSpot() = 0;
+    virtual void addRoad(int src, int dest, int weight) = 0;
+    virtual int findShortestPath(int src, int dest) = 0;
+    virtual void reportAccident(int node) = 0;
+    virtual void resolveAccident(int node) = 0;
+    virtual void addDroneRoute(int src, int dest) = 0;
+    virtual bool isDeliveryPossible(int src, int dest) = 0;
+    virtual ~CombinedSystemADT() {}
+};
+                </pre>
+            </div>
+            <div id="implementation" class="hidden">
+                <h2>Combined System Implementation</h2>
+                <pre>
+class CombinedSystem : public CombinedSystemADT {
+private:
+    unordered_map&lt;string, ParkingSpot*&gt; parkingSpots;
+    unordered_map&lt;int, vector&lt;Road&gt;&gt; graph;
+    unordered_set&lt;int&gt; accidentNodes;
+    unordered_map&lt;int, vector&lt;Road&gt;&gt; deliveryGraph;
+
+public:
+    void addParkingSpot(const string& id, int distance) override {
+        if (parkingSpots.find(id) != parkingSpots.end()) {
+            cout << "Parking spot already exists!" << endl;
+            return;
+        }
+        parkingSpots[id] = new ParkingSpot(id, distance);
+    }
+
+    void updateParkingAvailability(const string& id, bool available) override {
+        if (parkingSpots.find(id) == parkingSpots.end()) {
+            cout << "Parking spot not found!" << endl;
+            return;
+        }
+        parkingSpots[id]->available = available;
+    }
+
+    string findNearestParkingSpot() override {
+        string nearestId = "";
+        int minDistance = INT_MAX;
+        for (auto& spot : parkingSpots) {
+            if (spot.second->available && spot.second->distance < minDistance) {
+                minDistance = spot.second->distance;
+                nearestId = spot.first;
+            }
+        }
+        return nearestId;
+    }
+
+    void addRoad(int src, int dest, int weight) override {
+        graph[src].push_back(Road(dest, weight));
+        graph[dest].push_back(Road(src, weight));
+    }
+
+    int findShortestPath(int src, int dest) override {
+        priority_queue&lt;pair&lt;int, int&gt;, vector&lt;pair&lt;int, int&gt;&gt;, Compare&gt; pq;
+        unordered_map&lt;int, int&gt; distances;
+        for (auto& node : graph) {
+            distances[node.first] = INT_MAX;
+        }
+        distances[src] = 0;
+        pq.push({src, 0});
+
+        while (!pq.empty()) {
+            int current = pq.top().first;
+            int currentDistance = pq.top().second;
+            pq.pop();
+
+            if (currentDistance > distances[current]) continue;
+
+            for (auto& road : graph[current]) {
+                int neighbor = road.destination;
+                int newDistance = distances[current] + road.weight;
+                if (newDistance < distances[neighbor]) {
+                    distances[neighbor] = newDistance;
+                    pq.push({neighbor, newDistance});
+                }
+            }
+        }
+        return distances[dest];
+    }
+
+    void reportAccident(int node) override {
+        accidentNodes.insert(node);
+    }
+
+    void resolveAccident(int node) override {
+        accidentNodes.erase(node);
+    }
+
+    void addDroneRoute(int src, int dest) override {
+        deliveryGraph[src].push_back(Road(dest, 0));
+    }
+
+    bool isDeliveryPossible(int src, int dest) override {
+        queue&lt;int&gt; q;
+        unordered_set&lt;int&gt; visited;
+        q.push(src);
+        visited.insert(src);
+
+        while (!q.empty()) {
+            int current = q.front();
+            q.pop();
+            if (current == dest) return true;
+            for (auto& road : deliveryGraph[current]) {
+                if (!visited.count(road.destination)) {
+                    visited.insert(road.destination);
+                    q.push(road.destination);
+                }
+            }
+        }
+        return false;
+    }
+};
+                </pre>
+            </div>
+            <div id="main" class="hidden">
+                <h2>Main Function</h2>
+                <pre>
 int main() {
     CombinedSystem system;
-    int choice;
 
+    int choice;
     do {
-        cout << "\n--- Combined System Menu ---\n";
-        cout << "1. Add Parking Spot\n";
-        cout << "2. Update Parking Spot Availability\n";
-        cout << "3. Find Nearest Parking Spot\n";
-        cout << "4. Display Available Parking Spots\n";
-        cout << "5. Add Road\n";
-        cout << "6. Find Shortest Safe Route\n";
-        cout << "7. Report Accident\n";
-        cout << "8. Process Next Accident\n";
-        cout << "9. Display Pending Accidents\n";
-        cout << "0. Exit\n";
-        cout << "Enter your choice: ";
+        cout << "\nMenu:\n"
+             << "1. Add Parking Spot\n"
+             << "2. Update Parking Spot Availability\n"
+             << "3. Find Nearest Parking Spot\n"
+             << "4. Add Road\n"
+             << "5. Find Shortest Path\n"
+             << "6. Report Accident\n"
+             << "7. Resolve Accident\n"
+             << "8. Add Drone Route\n"
+             << "9. Check Drone Delivery\n"
+             << "0. Exit\n"
+             << "Enter your choice: ";
         cin >> choice;
 
         switch (choice) {
             case 1: {
                 string id;
                 int distance;
-                cout << "Enter Parking Spot ID: ";
-                cin >> id;
-                cout << "Enter Distance: ";
-                cin >> distance;
+                cout << "Enter parking spot ID and distance: ";
+                cin >> id >> distance;
                 system.addParkingSpot(id, distance);
-                cout << "Parking Spot added successfully.\n";
                 break;
             }
             case 2: {
                 string id;
                 bool available;
-                cout << "Enter Parking Spot ID: ";
-                cin >> id;
-                cout << "Enter Availability (1 for available, 0 for unavailable): ";
-                cin >> available;
+                cout << "Enter parking spot ID and availability (1 for available, 0 for not): ";
+                cin >> id >> available;
                 system.updateParkingAvailability(id, available);
-                cout << "Parking Spot availability updated.\n";
                 break;
             }
             case 3: {
-                string nearestSpot = system.findNearestParkingSpot();
-                if (!nearestSpot.empty()) {
-                    cout << "Nearest Available Parking Spot: " << nearestSpot << endl;
-                } else {
-                    cout << "No available parking spots found.\n";
-                }
+                string nearest = system.findNearestParkingSpot();
+                cout << "Nearest parking spot: " << nearest << endl;
                 break;
             }
             case 4: {
-                system.displayAvailableParkingSpots();
+                int src, dest, weight;
+                cout << "Enter source, destination, and weight: ";
+                cin >> src >> dest >> weight;
+                system.addRoad(src, dest, weight);
                 break;
             }
             case 5: {
-                int from, to, weight;
-                cout << "Enter Source Node: ";
-                cin >> from;
-                cout << "Enter Destination Node: ";
-                cin >> to;
-                cout << "Enter Road Weight (Distance): ";
-                cin >> weight;
-                system.addRoad(from, to, weight);
-                cout << "Road added successfully.\n";
-                break;
-            }
-            case 6: {
-                int start, destination;
-                cout << "Enter Start Node: ";
-                cin >> start;
-                cout << "Enter Destination Node: ";
-                cin >> destination;
-                vector<int> path = system.findShortestSafeRoute(start, destination);
-                if (!path.empty()) {
-                    cout << "Shortest Path: ";
-                    for (int node : path) {
-                        cout << node << " ";
-                    }
-                    cout << endl;
+                int src, dest;
+                cout << "Enter source and destination: ";
+                cin >> src >> dest;
+                int distance = system.findShortestPath(src, dest);
+                if (distance == INT_MAX) {
+                    cout << "No path found!" << endl;
                 } else {
-                    cout << "No route found.\n";
+                    cout << "Shortest path distance: " << distance << endl;
                 }
                 break;
             }
+            case 6: {
+                int node;
+                cout << "Enter accident node: ";
+                cin >> node;
+                system.reportAccident(node);
+                break;
+            }
             case 7: {
-                string location;
-                int severity, timestamp;
-                cout << "Enter Accident Location: ";
-                cin >> location;
-                cout << "Enter Severity (1-10): ";
-                cin >> severity;
-                cout << "Enter Timestamp (e.g., 1630): ";
-                cin >> timestamp;
-                system.reportAccident(location, severity, timestamp);
-                cout << "Accident reported successfully.\n";
+                int node;
+                cout << "Enter node to resolve accident: ";
+                cin >> node;
+                system.resolveAccident(node);
                 break;
             }
             case 8: {
-                system.processNextAccident();
+                int src, dest;
+                cout << "Enter source and destination for drone route: ";
+                cin >> src >> dest;
+                system.addDroneRoute(src, dest);
                 break;
             }
             case 9: {
-                system.displayPendingAccidents();
+                int src, dest;
+                cout << "Enter source and destination to check delivery: ";
+                cin >> src >> dest;
+                bool possible = system.isDeliveryPossible(src, dest);
+                cout << "Delivery possible: " << (possible ? "Yes" : "No") << endl;
                 break;
             }
             case 0:
-                cout << "Exiting the system. Goodbye!\n";
+                cout << "Exiting..." << endl;
                 break;
             default:
-                cout << "Invalid choice. Please try again.\n";
+                cout << "Invalid choice!" << endl;
         }
     } while (choice != 0);
 
     return 0;
 }
-
+                </pre>
+            </div>
+        </div>
+    </div>
+    
+</body>
+</html>
