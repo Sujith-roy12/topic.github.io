@@ -3,88 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Complete C++ Code Display</title>
+    <title>Combined System Code</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
+            font-family: monospace;
             background-color: #f4f4f4;
-        }
-        header {
-            background-color: #0078D4;
-            color: white;
-            padding: 10px;
-            text-align: center;
-        }
-        .container {
-            display: flex;
-        }
-        .menu {
-            width: 250px;
-            background-color: #2f3640;
-            color: white;
-            padding: 10px;
-            height: 100vh;
-            overflow-y: auto;
-        }
-        .menu ul {
-            list-style-type: none;
-            padding: 0;
-        }
-        .menu ul li {
-            margin: 10px 0;
-        }
-        .menu ul li a {
-            color: white;
-            text-decoration: none;
-            cursor: pointer;
-        }
-        .menu ul li a:hover {
-            text-decoration: underline;
-        }
-        .content {
-            flex-grow: 1;
+            color: #333;
             padding: 20px;
-            background-color: white;
-            overflow-y: auto;
-            height: 100vh;
         }
         pre {
-            background-color: #1e272e;
-            color: #dcdde1;
-            padding: 15px;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            padding: 10px;
             overflow-x: auto;
-            border-radius: 5px;
         }
-        .hidden {
-            display: none;
+        h1 {
+            text-align: center;
+        }
+        .menu {
+            margin: 20px 0;
+        }
+        .menu-item {
+            margin: 5px 0;
         }
     </style>
 </head>
 <body>
-    <header>
-        <h1>C++ Code Display</h1>
-    </header>
-    <div class="container">
-        <nav class="menu">
-            <ul>
-                <li><a onclick="showSection('intro')">Introduction</a></li>
-                <li><a onclick="showSection('includes')">Includes</a></li>
-                <li><a onclick="showSection('structures')">Structures</a></li>
-                <li><a onclick="showSection('adt')">Combined System ADT</a></li>
-                <li><a onclick="showSection('implementation')">Combined System Implementation</a></li>
-                <li><a onclick="showSection('main')">Main Function</a></li>
-            </ul>
-        </nav>
-        <div class="content">
-            <div id="intro">
-                <h2>Introduction</h2>
-                <p>This file displays the C++ code for a combined system that integrates parking, road management, accident handling, traffic enforcement, and drone delivery systems. The code is structured to demonstrate modularity and functionality through an abstract data type and its implementation.</p>
-            </div>
-            <div id="includes" class="hidden">
-                <h2>Includes</h2>
-                <pre>
+
+<h1>Combined System Code</h1>
+
+<div class="menu">
+    <h2>Menu:</h2>
+    <div class="menu-item">1. Parking System</div>
+    <div class="menu-item">2. Road System</div>
+    <div class="menu-item">3. Accident System</div>
+    <div class="menu-item">4. Traffic Enforcement</div>
+    <div class="menu-item">5. Drone Delivery</div>
+    <div class="menu-item">0. Exit</div>
+</div>
+
+<pre>
 #include &lt;iostream&gt;
 #include &lt;vector&gt;
 #include &lt;unordered_map&gt;
@@ -95,11 +53,7 @@
 #include &lt;algorithm&gt;
 
 using namespace std;
-                </pre>
-            </div>
-            <div id="structures" class="hidden">
-                <h2>Structures</h2>
-                <pre>
+
 // Structure to represent a parking spot
 struct ParkingSpot {
     string id;
@@ -113,237 +67,540 @@ struct ParkingSpot {
 // Structure to represent a road connection
 struct Road {
     int destination;
-    int weight;
+    int weight; // Weight can represent time, distance, or traffic level
 
     Road(int dest, int wt) : destination(dest), weight(wt) {}
 };
 
 // Comparator for priority queue (min-heap)
 struct Compare {
-    bool operator()(const pair&lt;int, int&gt;& a, const pair&lt;int, int&gt;& b) {
-        return a.second > b.second;
+    bool operator()(const pair&lt;int, int&gt;&amp; a, const pair&lt;int, int&gt;&amp; b) {
+        return a.second &gt; b.second; // Min-heap based on shortest distance
     }
 };
-                </pre>
-            </div>
-            <div id="adt" class="hidden">
-                <h2>Combined System ADT</h2>
-                <pre>
+
+// Structure to represent a delivery route
+struct Route {
+    int destination;
+    int deliveryTime;
+
+    Route(int dest, int time) : destination(dest), deliveryTime(time) {}
+};
+
+// Structure to hold accident information
+struct Accident {
+    string location;
+    int severity;
+    int timestamp;
+
+    Accident(string loc, int sev, int time) : location(loc), severity(sev), timestamp(time) {}
+};
+
+// Comparator for the Accident priority queue
+struct AccidentCompare {
+    bool operator()(const Accident* a, const Accident* b) {
+        // Compare based on severity (highest priority to highest severity)
+        return a-&gt;severity &lt; b-&gt;severity;
+    }
+};
+
+// Abstract Data Type for all systems
 class CombinedSystemADT {
 public:
-    virtual void addParkingSpot(const string& id, int distance) = 0;
-    virtual void updateParkingAvailability(const string& id, bool available) = 0;
+    virtual void addParkingSpot(const string&amp; id, int distance) = 0;
+    virtual void updateParkingAvailability(const string&amp; id, bool available) = 0;
     virtual string findNearestParkingSpot() = 0;
-    virtual void addRoad(int src, int dest, int weight) = 0;
-    virtual int findShortestPath(int src, int dest) = 0;
-    virtual void reportAccident(int node) = 0;
-    virtual void resolveAccident(int node) = 0;
-    virtual void addDroneRoute(int src, int dest) = 0;
-    virtual bool isDeliveryPossible(int src, int dest) = 0;
+    virtual void displayAvailableParkingSpots() const = 0;
+
+    virtual void addRoad(int from, int to, int weight) = 0;
+    virtual void markFloodedRoad(const string&amp; road) = 0;
+    virtual vector&lt;int&gt; findShortestSafeRoute(int start, int destination) = 0;
+    virtual void displayAllRoutesDFS(const string&amp; start) = 0;
+
+    virtual void reportAccident(const string&amp; location, int severity, int timestamp) = 0;
+    virtual void processNextAccident() = 0;
+    virtual void displayPendingAccidents() const = 0;
+
+    virtual void addIntersection(int id) = 0;
+    virtual void addTrafficRoad(int from, int to, int trafficLevel) = 0;
+    virtual void deployDrone(int droneId, int startIntersection) = 0;
+    virtual void monitorTraffic(int droneId) = 0;
+
+    virtual void addDeliveryZone(int id) = 0;
+    virtual void addDeliveryRoute(int from, int to, int deliveryTime) = 0;
+    virtual void assignDroneTask (int droneId, int startZone, int endZone) = 0;
+    virtual void processDeliveries() = 0;
+
+    virtual void findFastestRoute(int source, int vehiclePriority) = 0;
+
     virtual ~CombinedSystemADT() {}
 };
-                </pre>
-            </div>
-            <div id="implementation" class="hidden">
-                <h2>Combined System Implementation</h2>
-                <pre>
+
+// Implementation of Combined System
 class CombinedSystem : public CombinedSystemADT {
 private:
     unordered_map&lt;string, ParkingSpot*&gt; parkingSpots;
     unordered_map&lt;int, vector&lt;Road&gt;&gt; graph;
-    unordered_set&lt;int&gt; accidentNodes;
-    unordered_map&lt;int, vector&lt;Road&gt;&gt; deliveryGraph;
+    unordered_map&lt;int, vector&lt;Route&gt;&gt; deliveryGraph;
+    priority_queue&lt;Accident*, vector&lt;Accident*&gt;, AccidentCompare&gt; accidentQueue;
+    unordered_map&lt;int, unordered_set&lt;int&gt;&gt; floodedRoads;
+    unordered_map&lt;int, vector&lt;Road&gt;&gt; trafficGraph;
+    queue&lt;pair&lt;int, pair&lt;int, int&gt;&gt;&gt; droneTasks;
+    vector&lt;string&gt; vehicleTypes = { "Emergency Services", "Heavy-Duty Vehicles", "Regular Vehicles" };
 
 public:
-    void addParkingSpot(const string& id, int distance) override {
+    void displayAllRoutesDFS(const string&amp; start) override {
+        unordered_set&lt;int&gt; visited;
+        cout &lt;&lt; "All possible routes from " &lt;&lt; start &lt;&lt; ":" &lt;&lt; endl;
+        dfs(start, visited);
+    }
+    // Parking System Methods
+    void addParkingSpot(const string&amp; id, int distance) override {
         if (parkingSpots.find(id) != parkingSpots.end()) {
-            cout << "Parking spot already exists!" << endl;
+            cout &lt;&lt; "Spot " &lt;&lt; id &lt;&lt; " already exists." &lt;&lt; endl;
             return;
         }
-        parkingSpots[id] = new ParkingSpot(id, distance);
+        ParkingSpot* spot = new ParkingSpot(id, distance);
+        parkingSpots[id] = spot;
+        cout &lt;&lt; "Spot " &lt;&lt; id &lt;&lt; " added successfully." &lt;&lt; endl;
     }
 
-    void updateParkingAvailability(const string& id, bool available) override {
+    void updateParkingAvailability(const string&amp; id, bool available) override {
         if (parkingSpots.find(id) == parkingSpots.end()) {
-            cout << "Parking spot not found!" << endl;
+            cout &lt;&lt; "Spot " &lt;&lt; id &lt;&lt; " does not exist." &lt;&lt; endl;
             return;
         }
-        parkingSpots[id]->available = available;
+        parkingSpots[id]-&gt;available = available;
+        cout &lt;&lt; "Spot " &lt;&lt; id &lt;&lt; " availability updated." &lt;&lt; endl;
     }
 
     string findNearestParkingSpot() override {
-        string nearestId = "";
-        int minDistance = INT_MAX;
-        for (auto& spot : parkingSpots) {
-            if (spot.second->available && spot.second->distance < minDistance) {
-                minDistance = spot.second->distance;
-                nearestId = spot.first;
+        for (const auto&amp; pair : parkingSpots) {
+            if (pair.second-&gt;available) {
+                return pair.second-&gt;id;
             }
         }
-        return nearestId;
+        return "No available spots.";
     }
 
-    void addRoad(int src, int dest, int weight) override {
-        graph[src].push_back(Road(dest, weight));
-        graph[dest].push_back(Road(src, weight));
-    }
-
-    int findShortestPath(int src, int dest) override {
-        priority_queue&lt;pair&lt;int, int&gt;, vector&lt;pair&lt;int, int&gt;&gt;, Compare&gt; pq;
-        unordered_map&lt;int, int&gt; distances;
-        for (auto& node : graph) {
-            distances[node.first] = INT_MAX;
+    void displayAvailableParkingSpots() const override {
+        cout &lt;&lt; "Available parking spots: ";
+        for (const auto&amp; pair : parkingSpots) {
+            if (pair.second-&gt;available) {
+                cout &lt;&lt; pair.second-&gt;id &lt;&lt; " ";
+            }
         }
-        distances[src] = 0;
-        pq.push({src, 0});
+        cout &lt;&lt; endl;
+    }
+
+    // Road System Methods
+    void addRoad(int from, int to, int weight) override {
+        graph[from].emplace_back(to, weight);
+        graph[to].emplace_back(from, weight); // Assuming undirected roads
+        cout &lt;&lt; "Road added between " &lt;&lt; from &lt;&lt; " and " &lt;&lt; to &lt;&lt; " with weight " &lt;&lt; weight &lt;&lt; "." &lt;&lt; endl;
+    }
+
+    void findFastestRoute(int source, int vehiclePriority) override {
+        unordered_map&lt;int, int&gt; distance;
+        for (const auto&amp; node : graph) {
+            distance[node.first] = INT_MAX;
+        }
+
+        priority_queue&lt;pair&lt;int, int&gt;, vector&lt;pair&lt;int, int&gt;&gt;, Compare&gt; pq;
+        distance[source] = 0;
+        pq.push({ source, 0 });
+
+        cout &lt;&lt; "\nFinding fastest route for: " &lt;&lt; vehicleTypes[vehiclePriority - 1] &lt;&lt; endl;
 
         while (!pq.empty()) {
             int current = pq.top().first;
             int currentDistance = pq.top().second;
             pq.pop();
 
-            if (currentDistance > distances[current]) continue;
+            if (currentDistance &gt; distance[current]) continue;
 
-            for (auto& road : graph[current]) {
-                int neighbor = road.destination;
-                int newDistance = distances[current] + road.weight;
-                if (newDistance < distances[neighbor]) {
-                    distances[neighbor] = newDistance;
-                    pq.push({neighbor, newDistance});
+            for (const Road&amp; road : graph[current]) {
+                // Skip flooded roads
+                if (floodedRoad ```html
+s[current].count(road.destination)) continue;
+
+                int newDistance = currentDistance + road.weight;
+                if (vehiclePriority == 1) { // Emergency Services
+                    newDistance -= 2; // Reduced weight for emergency vehicles
+                } else if (vehiclePriority == 2) { // Heavy-Duty Vehicles
+                    newDistance += 1; // Slightly higher weight for heavy vehicles
+                }
+
+                if (newDistance < distance[road.destination]) {
+                    distance[road.destination] = newDistance;
+                    pq.push({ road.destination, newDistance });
                 }
             }
         }
-        return distances[dest];
+
+        cout &lt;&lt; "Fastest routes from node " &lt;&lt; source &lt;&lt; ":" &lt;&lt; endl;
+        for (const auto&amp; pair : distance) {
+            cout &lt;&lt; "Node " &lt;&lt; pair.first &lt;&lt; " -> Distance: ";
+            if (pair.second == INT_MAX) {
+                cout &lt;&lt; "Unreachable" &lt;&lt; endl;
+            } else {
+                cout &lt;&lt; pair.second &lt;&lt; endl;
+            }
+        }
     }
 
-    void reportAccident(int node) override {
-        accidentNodes.insert(node);
-    }
+    vector&lt;int&gt; findShortestSafeRoute(int start, int destination) override {
+        vector&lt;int&gt; path;
+        unordered_map&lt;int, int&gt; distance;
+        unordered_map&lt;int, int&gt; previous;
+        for (const auto&amp; node : graph) {
+            distance[node.first] = INT_MAX;
+        }
 
-    void resolveAccident(int node) override {
-        accidentNodes.erase(node);
-    }
+        priority_queue&lt;pair&lt;int, int&gt;, vector&lt;pair&lt;int, int&gt;&gt;, Compare&gt; pq;
+        distance[start] = 0;
+        pq.push({ start, 0 });
 
-    void addDroneRoute(int src, int dest) override {
-        deliveryGraph[src].push_back(Road(dest, 0));
-    }
+        while (!pq.empty()) {
+            int current = pq.top().first;
+            pq.pop();
 
-    bool isDeliveryPossible(int src, int dest) override {
-        queue&lt;int&gt; q;
-        unordered_set&lt;int&gt; visited;
-        q.push(src);
-        visited.insert(src);
+            if (current == destination) break;
 
-        while (!q.empty()) {
-            int current = q.front();
-            q.pop();
-            if (current == dest) return true;
-            for (auto& road : deliveryGraph[current]) {
-                if (!visited.count(road.destination)) {
-                    visited.insert(road.destination);
-                    q.push(road.destination);
+            for (const Road&amp; road : graph[current]) {
+                // Skip flooded roads
+                if (floodedRoads[current].count(road.destination)) continue;
+
+                int newDistance = distance[current] + road.weight;
+                if (newDistance < distance[road.destination]) {
+                    distance[road.destination] = newDistance;
+                    pq.push({ road.destination, newDistance });
+                    previous[road.destination] = current;
                 }
             }
         }
-        return false;
+
+        int current = destination;
+        while (current != start) {
+            path.push_back(current);
+            current = previous[current];
+        }
+        path.push_back(start);
+        reverse(path.begin(), path.end());
+        return path;
     }
+
+    void markFloodedRoad(const string&amp; road) override {
+        // Assuming roads are represented as a string like "A-B", we need a mapping.
+        cout &lt;&lt; "Road " &lt;&lt; road &lt;&lt; " marked as flooded." &lt;&lt; endl;
+        // Here, you could parse the road string (e.g., "A-B") to extract the from and to nodes.
+    }
+
+    // Accident System Methods
+    void reportAccident(const string&amp; location, int severity, int timestamp) override {
+        Accident* newAccident = new Accident(location, severity, timestamp);
+        accidentQueue.push(newAccident);
+        cout &lt;&lt; "Accident reported at " &lt;&lt; location &lt;&lt; " with severity " &lt;&lt; severity &lt;&lt; " at timestamp " &lt;&lt; timestamp &lt;&lt; "." &lt;&lt; endl;
+    }
+
+    void processNextAccident() override {
+        if (accidentQueue.empty()) {
+            cout &lt;&lt; "No pending accidents to process." &lt;&lt; endl;
+            return;
+        }
+        Accident* nextAccident = accidentQueue.top();
+        accidentQueue.pop();
+        cout &lt;&lt; "Processing accident at " &lt;&lt; nextAccident-&gt;location
+             &lt;&lt; " with severity " &lt;&lt; nextAccident-&gt;severity
+             &lt;&lt; " reported at timestamp " &lt;&lt; nextAccident-&gt;timestamp &lt;&lt; "." &lt;&lt; endl;
+        delete nextAccident; // Clean up memory
+    }
+
+    void displayPendingAccidents() const override {
+        if (accidentQueue.empty()) {
+            cout &lt;&lt; "No pending accidents to display." &lt;&lt; endl;
+            return;
+        }
+        cout &lt;&lt; "Pending accidents (in priority order):" &lt;&lt; endl;
+        priority_queue&lt;Accident*, vector&lt;Accident*&gt;, AccidentCompare&gt; tempQueue ```html
+= accidentQueue;
+        while (!tempQueue.empty()) {
+            Accident* acc = tempQueue.top();
+            cout &lt;&lt; "Location: " &lt;&lt; acc-&gt;location &lt;&lt; ", Severity: " &lt;&lt; acc-&gt;severity &lt;&lt; endl;
+            tempQueue.pop();
+        }
+    }
+
+    // Traffic Enforcement Methods
+    void addIntersection(int id) override {
+        trafficGraph[id] = vector&lt;Road&gt;(); // Initialize empty vector for roads
+        cout &lt;&lt; "Intersection " &lt;&lt; id &lt;&lt; " added." &lt;&lt; endl;
+    }
+
+    void addTrafficRoad(int from, int to, int trafficLevel) override {
+        trafficGraph[from].push_back(Road(to, trafficLevel));
+        cout &lt;&lt; "Traffic road added between " &lt;&lt; from &lt;&lt; " and " &lt;&lt; to &lt;&lt; " with traffic level " &lt;&lt; trafficLevel &lt;&lt; "." &lt;&lt; endl;
+    }
+
+    void deployDrone(int droneId, int startIntersection) override {
+        cout &lt;&lt; "Drone " &lt;&lt; droneId &lt;&lt; " deployed at intersection " &lt;&lt; startIntersection &lt;&lt; "." &lt;&lt; endl;
+    }
+
+    void monitorTraffic(int droneId) override {
+        cout &lt;&lt; "Monitoring traffic with drone " &lt;&lt; droneId &lt;&lt; endl;
+    }
+
+    // Drone Delivery Methods
+    void addDeliveryZone(int id) override {
+        deliveryGraph[id] = vector&lt;Route&gt;(); // Initialize empty route vector
+        cout &lt;&lt; "Delivery zone " &lt;&lt; id &lt;&lt; " added." &lt;&lt; endl;
+    }
+
+    void addDeliveryRoute(int from, int to, int deliveryTime) override {
+        deliveryGraph[from].push_back(Route(to, deliveryTime));
+        cout &lt;&lt; "Delivery route from " &lt;&lt; from &lt;&lt; " to " &lt;&lt; to &lt;&lt; " with time " &lt;&lt; deliveryTime &lt;&lt; " added." &lt;&lt; endl;
+    }
+
+    void assignDroneTask(int droneId, int startZone, int endZone) override {
+        droneTasks.push({droneId, {startZone, endZone}});
+        cout &lt;&lt; "Assigned drone " &lt;&lt; droneId &lt;&lt; " from zone " &lt;&lt; startZone &lt;&lt; " to zone " &lt;&lt; endZone &lt;&lt; "." &lt;&lt; endl;
+    }
+
+    void processDeliveries() override {
+        if (droneTasks.empty()) {
+            cout &lt;&lt; "No pending drone deliveries." &lt;&lt; endl;
+            return;
+        }
+
+        while (!droneTasks.empty()) {
+            auto task = droneTasks.front();
+            droneTasks.pop();
+            cout &lt;&lt; "Processing delivery with drone " &lt;&lt; task.first
+                 &lt;&lt; " from zone " &lt;&lt; task.second.first
+                 &lt;&lt; " to zone " &lt;&lt; task.second.second &lt;&lt; "." &lt;&lt; endl;
+        }
+    }
+private:
+    // DFS traversal helper function
+    void dfs(const string&amp; current, unordered_set&lt;int&gt;&amp; visited) {
+        // Mark the current node as visited and print it
+        visited.insert(stoi(current));  // Assuming the 'current' can be converted to int for graph nodes
+        cout &lt;&lt; current &lt;&lt; " ";
+
+        // Explore all neighbors (adjacent nodes)
+        for (const auto&amp; road : graph[stoi(current)]) {
+            if (visited.find(road.destination) == visited.end()) {
+                dfs(to_string(road.destination), visited);  // Assuming we're using string to represent nodes
+            }
+        }
+    }
+
+    // Additional helper methods can be added as needed.
 };
-                </pre>
-            </div>
-            <div id="main" class="hidden">
-                <h2>Main Function</h2>
-                <pre>
+
 int main() {
     CombinedSystem system;
 
+    // Menu and system interaction
     int choice;
     do {
-        cout << "\nMenu:\n"
-             << "1. Add Parking Spot\n"
-             << "2. Update Parking Spot Availability\n"
-             << "3. Find Nearest Parking Spot\n"
-             << "4. Add Road\n"
-             << "5. Find Shortest Path\n"
-             << "6. Report Accident\n"
-             << "7. Resolve Accident\n"
-             << "8. Add Drone Route\n"
-             << "9. Check Drone Delivery\n"
-             << "0. Exit\n"
-             << "Enter your choice: ";
-        cin >> choice;
+        cout &lt;&lt; "\nMenu:\n"
+             &lt;&lt; "1. Parking System\n"
+             &lt;&lt; "2. Road System\n"
+             &lt;&lt; "3. Accident System\n"
+             &lt;&lt; "4. Traffic Enforcement\n"
+             &lt;&lt; ```html
+"5. Drone Delivery\n"
+             &lt;&lt; "0. Exit\n"
+             &lt;&lt; "Enter choice: ";
+        cin &gt;&gt; choice;
 
         switch (choice) {
             case 1: {
-                string id;
-                int distance;
-                cout << "Enter parking spot ID and distance: ";
-                cin >> id >> distance;
-                system.addParkingSpot(id, distance);
-                break;
-            }
-            case 2: {
-                string id;
-                bool available;
-                cout << "Enter parking spot ID and availability (1 for available, 0 for not): ";
-                cin >> id >> available;
-                system.updateParkingAvailability(id, available);
-                break;
-            }
-            case 3: {
-                string nearest = system.findNearestParkingSpot();
-                cout << "Nearest parking spot: " << nearest << endl;
-                break;
-            }
-            case 4: {
-                int src, dest, weight;
-                cout << "Enter source, destination, and weight: ";
-                cin >> src >> dest >> weight;
-                system.addRoad(src, dest, weight);
-                break;
-            }
-            case 5: {
-                int src, dest;
-                cout << "Enter source and destination: ";
-                cin >> src >> dest;
-                int distance = system.findShortestPath(src, dest);
-                if (distance == INT_MAX) {
-                    cout << "No path found!" << endl;
-                } else {
-                    cout << "Shortest path distance: " << distance << endl;
+                int parkChoice;
+                cout &lt;&lt; "Parking System:\n"
+                     &lt;&lt; "1. Add Parking Spot\n"
+                     &lt;&lt; "2. Update Parking Availability\n"
+                     &lt;&lt; "3. Find Nearest Available Parking Spot\n"
+                     &lt;&lt; "4. Display Available Parking Spots\n"
+                     &lt;&lt; "Enter choice: ";
+                cin &gt;&gt; parkChoice;
+                switch (parkChoice) {
+                    case 1: {
+                        string id;
+                        int distance;
+                        cout &lt;&lt; "Enter parking spot ID and distance: ";
+                        cin &gt;&gt; id &gt;&gt; distance;
+                        system.addParkingSpot(id, distance);
+                        break;
+                    }
+                    case 2: {
+                        string id;
+                        bool available;
+                        cout &lt;&lt; "Enter parking spot ID and availability (1 for available, 0 for not available): ";
+                        cin &gt;&gt; id &gt;&gt; available;
+                        system.updateParkingAvailability(id, available);
+                        break;
+                    }
+                    case 3:
+                        cout &lt;&lt; "Nearest available parking spot: " &lt;&lt; system.findNearestParkingSpot() &lt;&lt; endl;
+                        break;
+                    case 4:
+                        system.displayAvailableParkingSpots();
+                        break;
+                    default:
+                        cout &lt;&lt; "Invalid choice!" &lt;&lt; endl;
                 }
                 break;
             }
-            case 6: {
-                int node;
-                cout << "Enter accident node: ";
-                cin >> node;
-                system.reportAccident(node);
+            case 2: {
+                int roadChoice;
+                cout &lt;&lt; "Road System:\n"
+                     &lt;&lt; "1. Add Road\n"
+                     &lt;&lt; "2. Find Fastest Route\n"
+                     &lt;&lt; "3. Mark Flooded Road\n"
+                     &lt;&lt; "Enter choice: ";
+                cin &gt;&gt; roadChoice;
+                switch (roadChoice) {
+                    case 1: {
+                        int from, to, weight;
+                        cout &lt;&lt; "Enter road (from, to, weight): ";
+                        cin &gt;&gt; from &gt;&gt; to &gt;&gt; weight;
+                        system.addRoad(from, to, weight);
+                        break;
+                    }
+                    case 2: {
+                        int source, vehiclePriority;
+                        cout &lt;&lt; "Enter source node and vehicle type (1 for emergency, 2 for heavy-duty, 3 for regular): ";
+                        cin &gt;&gt; source &gt;&gt; vehiclePriority;
+                        system.findFastestRoute(source, vehiclePriority);
+                        break;
+                    }
+                    case 3: {
+                        string road;
+                        cout &lt;&lt; "Enter road to mark as flooded (e.g., A-B): ";
+                        cin &gt;&gt; road;
+                        system.markFloodedRoad(road);
+                        break;
+                    }
+                    default:
+                        cout &lt;&lt; "Invalid choice!" &lt;&lt; endl;
+                }
                 break;
             }
-            case 7: {
-                int node;
-                cout << "Enter node to resolve accident: ";
-                cin >> node;
-                system.resolveAccident(node);
+            case 3: {
+                int accidentChoice;
+                cout &lt;&lt; "Accident System:\n"
+                     &lt;&lt; "1. Report Accident\n"
+                     &lt;&lt; "2. Process Next Accident\n"
+                     &lt;&lt; "3. Display Pending Accidents\n"
+                     &lt;&lt; "Enter choice: ";
+                cin &gt;&gt; accidentChoice;
+                switch (accidentChoice) {
+                    case 1: {
+                        string location;
+                        int severity, timestamp;
+                        cout &lt;&lt; "Enter accident details (location, severity, timestamp): ";
+                        cin &gt;&gt; location &gt;&gt; severity &gt;&gt; timestamp;
+                        system.reportAccident(location, severity, timestamp);
+                        break;
+                    }
+                    case 2:
+                        system.processNextAccident();
+                        break;
+                    case 3:
+                        system.displayPendingAccidents();
+                        break;
+                    default:
+                        cout &lt;&lt; "Invalid choice!" &lt;&lt; endl;
+                }
                 break;
             }
-            case 8: {
-                int src, dest;
-                cout << "Enter source and destination for drone route: ";
-                cin >> src >> dest;
-                system.addDroneRoute(src, dest);
+            case 4: {
+                int trafficChoice;
+                cout &lt;&lt; "Traffic Enforcement:\n"
+                     &lt;&lt; "1. Add Intersection\n"
+                     &lt;&lt; "2. Add Traffic Road\n"
+                     &lt;&lt; "3. Deploy Drone\n"
+                     &lt;&lt; "4. Monitor Traffic\n"
+                     &lt ```html
+                     << "Enter choice: ";
+                cin >> trafficChoice;
+                switch (trafficChoice) {
+                    case 1: {
+                        int id;
+                        cout << "Enter intersection ID: ";
+                        cin >> id;
+                        system.addIntersection(id);
+                        break;
+                    }
+                    case 2: {
+                        int from, to, trafficLevel;
+                        cout << "Enter traffic road (from, to, trafficLevel): ";
+                        cin >> from >> to >> trafficLevel;
+                        system.addTrafficRoad(from, to, trafficLevel);
+                        break;
+                    }
+                    case 3: {
+                        int droneId, startIntersection;
+                        cout << "Enter drone ID and starting intersection: ";
+                        cin >> droneId >> startIntersection;
+                        system.deployDrone(droneId, startIntersection);
+                        break;
+                    }
+                    case 4: {
+                        int droneId;
+                        cout << "Enter drone ID: ";
+                        cin >> droneId;
+                        system.monitorTraffic(droneId);
+                        break;
+                    }
+                    default:
+                        cout << "Invalid choice!" << endl;
+                }
                 break;
             }
-            case 9: {
-                int src, dest;
-                cout << "Enter source and destination to check delivery: ";
-                cin >> src >> dest;
-                bool possible = system.isDeliveryPossible(src, dest);
-                cout << "Delivery possible: " << (possible ? "Yes" : "No") << endl;
+            case 5: {
+                int deliveryChoice;
+                cout << "Drone Delivery System:\n"
+                     << "1. Add Delivery Zone\n"
+                     << "2. Add Delivery Route\n"
+                     << "3. Assign Drone Task\n"
+                     << "4. Process Deliveries\n"
+                     << "Enter choice: ";
+                cin >> deliveryChoice;
+                switch (deliveryChoice) {
+                    case 1: {
+                        int id;
+                        cout << "Enter delivery zone ID: ";
+                        cin >> id;
+                        system.addDeliveryZone(id);
+                        break;
+                    }
+                    case 2: {
+                        int from, to, deliveryTime;
+                        cout << "Enter delivery route (from, to, deliveryTime): ";
+                        cin >> from >> to >> deliveryTime;
+                        system.addDeliveryRoute(from, to, deliveryTime);
+                        break;
+                    }
+                    case 3: {
+                        int droneId, startZone, endZone;
+                        cout << "Enter drone ID, start zone, and end zone: ";
+                        cin >> droneId >> startZone >> endZone;
+                        system.assignDroneTask(droneId, startZone, endZone);
+                        break;
+                    }
+                    case 4:
+                        system.processDeliveries();
+                        break;
+                    default:
+                        cout << "Invalid choice!" << endl;
+                }
                 break;
             }
             case 0:
-                cout << "Exiting..." << endl;
+                cout << "Exiting system." << endl;
                 break;
             default:
                 cout << "Invalid choice!" << endl;
@@ -352,10 +609,6 @@ int main() {
 
     return 0;
 }
-                </pre>
-            </div>
-        </div>
-    </div>
-    
+</pre>
 </body>
 </html>
